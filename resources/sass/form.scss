@@ -1,0 +1,31 @@
+    @import './variables';
+    form {
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+        //padding: 5px;
+        width: 75%;
+        border: 1px solid rgb(218, 149, 149);
+        border-radius: 5px;
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            align-self: center;
+            width: 95%;
+            margin: 5px;
+        }
+
+        button {
+            font-weight: 800;
+            align-self: flex-end;
+            width: 100%;
+            border-radius: 0 0 5px 5px;
+            background: $button-color;
+        }
+
+        a {
+            margin-left: 6.5px;
+            font-size: 12px;
+        }
+    }
