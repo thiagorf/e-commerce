@@ -1,4 +1,4 @@
-## Sobre o projeto
+## Sobre o projeto em andamento
 Um website em andamento, feito com as tecnologias Laravel e vue
 
 ### Estado atual do projeto
