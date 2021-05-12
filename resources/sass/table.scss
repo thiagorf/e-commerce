@@ -1,0 +1,33 @@
+
+@import './../../../sass/variables';
+
+.table-wrapper {
+    width: 84.5%;
+    margin: 0 auto;
+}
+
+table {
+    table-layout: fixed;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    border: 1px solid $border-color;
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 5px;
+    tr, th, td {
+        padding: 5px;
+        border: 1px solid $border-color;
+    }
+    tbody tr:nth-child(odd) {
+        background: $button-color;
+    }
+    input {
+        border: 0;
+        background: inherit;
+    }
+}
+thead, tr, tbody {
+
+    width: 100%;
+}

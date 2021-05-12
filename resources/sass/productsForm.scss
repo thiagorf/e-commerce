@@ -1,0 +1,52 @@
+
+@import './../../../sass/variables';
+.wrapper {
+    width: 84.5%;
+    margin: 0 auto;
+    form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid $border-color;
+        margin-bottom: 3px;
+        padding-top: 3px;
+    }
+    .categories-wrapper {
+        align-self: center;
+        width: 95%;
+    }
+    button {
+        background: $button-color;
+        margin-top: 5px;
+        border-top: 1px solid $border-color;
+    }
+    input[type="text"] {
+        align-self: center;
+        border: 1px solid $border-color;
+        margin: 2px;
+        width: 95%;
+    }
+    input[type="checkbox"] {
+        display: none;
+    }
+    input[type="checkbox"] + label::before {
+        content: "";
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        margin-right: 3px;
+        border: 1px solid $border-color;
+        vertical-align: middle;
+    }
+    input[type="checkbox"]:checked + label::before {
+        content: "";
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        margin-right: 3px;
+        border: 1px solid $border-color;
+        background: rgb(224, 140, 140);
+        vertical-align: middle;
+    }
+    
+}

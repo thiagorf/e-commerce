@@ -1,11 +1,11 @@
 <template>
-    <div>
+    <div class="wrapper">
         <form>
-            <input type="text" name="name" v-model="formData.name">
-            <input type="text" name="description" v-model="formData.description">
-            <input type="text" name="price" v-model="formData.price">
+            <input type="text" name="name" v-model="formData.name" placeholder="Nome">
+            <input type="text" name="description" v-model="formData.description" placeholder="Descrição">
+            <input type="text" name="price" v-model="formData.price" placeholder="Preço">
+            <div v-if="categories" class="categories-wrapper">
             <h3>Escolha as categorias</h3>
-            <div v-if="categories">
                 <div
                     v-for="(category, index) in categories" 
                     :key="index"
@@ -20,7 +20,7 @@
                 </div>
                 
             </div>
-            <button type="submit" @click.prevent="submitProduct">Create</button>
+            <button type="submit" @click.prevent="submitProduct">Criar</button>
         </form>
     </div>   
 </template>
@@ -59,3 +59,6 @@ export default {
     
 }
 </script>
+<style lang="scss" scoped>
+@import './../../../sass/productsForm';
+</style>

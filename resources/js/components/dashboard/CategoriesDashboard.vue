@@ -6,7 +6,7 @@
         </div>
 
         <CreateCategories @updatedCategories="getCategories"/>
-        <div v-if="categories">
+        <div v-if="categories" class="table-wrapper">
             <table>
                 <thead>
                     <tr>
@@ -93,3 +93,12 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+@import './../../../sass/table';
+table {
+    display: table;
+    input {
+        width: 100%;
+    }
+}
+</style>

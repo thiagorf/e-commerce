@@ -67,22 +67,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
-.table-wrapper {
-    width: 84.5%;
-    margin: 0 auto;
-}
-
-table {
-    table-layout: fixed;
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-    border: 1px solid black;
-    width: 100%;
-    th {
-        width: 25%;
-    }
-
-}
+@import './../../../sass/table';
 </style>

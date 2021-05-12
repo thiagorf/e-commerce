@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div v-if="modal">
+        <div v-if="modal" class="wrapper">
             <form>
                 <input type="text" v-model="modalProduct.name">
                 <input type="text" v-model="modalProduct.description">
                 <input type="text" v-model="modalProduct.price">
-                <div v-for="(category, index) in categories" :key="index">
+                <div v-for="(category, index) in categories" :key="index" class="categories-wrapper">
                     <input type="checkbox" :id="category.tag" :value="category.id" v-model="tags">
                     <label 
                         :for="category.tag"
@@ -20,40 +20,42 @@
         <div>
             <CreateProduct />
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Nome</th>
-                    <th>Descrição</th>
-                    <th>Preço</th>
-                    <th>Categorias</th>
-                    <th>Editar</th>
-                    <th>Excluir</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(product, index) in products" :key="index">
-                    <td v-text="product.id"></td>
-                    <td v-text="product.name"></td>
-                    <td v-text="product.description"></td>
-                    <td v-text="product.price"></td>
-                    <td>
-                        <select>
-                            <option 
-                                v-text="category.tag" 
-                                :value="category.tag" 
-                                v-for="(category, index) in product.categories" 
-                                :key="index"
-                            >
-                            </option>
-                        </select>
-                    </td>
-                    <td><button @click="showModal(product.id)">Editar</button></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Preço</th>
+                        <th>Categorias</th>
+                        <th>Editar</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(product, index) in products" :key="index">
+                        <td v-text="product.id"></td>
+                        <td v-text="product.name"></td>
+                        <td v-text="product.description"></td>
+                        <td v-text="product.price"></td>
+                        <td>
+                            <select>
+                                <option 
+                                    v-text="category.tag" 
+                                    :value="category.tag" 
+                                    v-for="(category, index) in product.categories" 
+                                    :key="index"
+                                >
+                                </option>
+                            </select>
+                        </td>
+                        <td><button @click="showModal(product.id)">Editar</button></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 <script>
@@ -122,3 +124,7 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+@import './../../../sass/table';
+@import './../../../sass/productsForm';
+</style>

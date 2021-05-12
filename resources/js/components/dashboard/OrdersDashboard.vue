@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="orders">
+        <div v-if="orders" class="table-wrapper">
             <table>
                 <thead>
                     <tr>
@@ -59,3 +59,6 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+@import './../../../sass/table';
+</style>
