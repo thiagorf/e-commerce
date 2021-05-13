@@ -1,16 +1,21 @@
 <template>
     <div>
         <Message  v-bind:testMessage.sync="message" @notifyComponent="changeMessage"/>
-        <div v-if="product">
-            <h2 v-text="product.name"></h2>
-            <p v-text="product.description"></p>
-            <strong v-text="product.price"></strong>
-            <div v-if="login.data">
-                <button v-if="!isInCart(product.id)" @click="addCart(product.id)">Adicionar ao Carrinho</button>
-                <button v-else @click="addCart(product.id)" disabled>Adicionar ao Carrinho</button>
+        <div v-if="product" class="detail-product">
+            <div class="img">
+                IMAGEM
             </div>
-            <div v-else>
-                <button @click="showLoginForm">Adicionar ao Carrinho</button>
+            <div class="detail-product-content">
+                <h4 v-text="product.name"></h4>
+                <h6 v-text="product.description"></h6>
+                <span v-text="product.price"></span>
+                <div v-if="login.data">
+                    <button v-if="!isInCart(product.id)" @click="addCart(product.id)">Adicionar ao Carrinho</button>
+                    <button v-else @click="addCart(product.id)" disabled>Adicionar ao Carrinho</button>
+                </div>
+                <div v-else>
+                    <button @click="showLoginForm">Adicionar ao Carrinho</button>
+                </div>
             </div>
         </div>
     </div>
@@ -109,3 +114,41 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+@import './../../sass/variables';
+
+.detail-product {
+    width: 84.5%;
+    margin: 0 auto;
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    .img {
+        border-bottom: 1px solid black;
+        width: 100%;
+        height: 240px;
+    }
+}
+
+.detail-product-content {
+    h4, h6, span {
+        padding-left: 5px;
+    }
+    h4 {
+        font-size: 37px;
+        margin-bottom: -6px;
+    }
+    h6 {
+        margin-bottom: 4px;
+        font-size: 21px;
+    }
+    div button {
+        width: 100%;
+        height: 34px;
+        background: $button-color;
+        margin-top: 5px;
+        border-top: 1px solid $border-color;
+        border-radius: 0 0 5px 5px;
+    }
+}
+
+</style>
