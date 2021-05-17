@@ -189,62 +189,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import './../../sass/variables';
+@import './../../sass/grid';
 
-.content {
-    display: grid;
-    // testar a width com 84.5% e centralizar com a margin
-    //width: 100%;
-    width: 84.5px;
-    margin: 0 auto;
-    grid-template-columns: repeat(2, 147px);
-    column-gap: 5px;
-    row-gap: 10px;
-    gap: 10px;
-    justify-content: center;
-}
-
-.card {
-    margin-top: 10px;
-    width: 147px;
-    height: 200px;
-    //border: 1px solid rgb(243, 165, 165);
-    border: 1px solid $border-color;
-    border-radius: 5px;
-}
-
-.img {
-    position: relative;
-    width: 100%;
-    height: 130px;
-    border-bottom: 1px solid $border-color;
-}
-
-.card-info {
-    h6 {
-        font-size: 21px;
-        font-weight: 700;
-    }
-    span {
-        font-weight: 400;
-    }
-    button {
-        font-weight: 800;
-        widows: 100%;
-        //align-self: flex-end;
-        background: #f8ceb9;
-        border-radius: 0 0 5px 5px;
-        padding: 3px;
-        //margin-right: 2px;
-        margin-top: .5px;
-        //padding: 4px;
-    }
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 70px;
-    //border: 1px solid black;
-}
 
 .fav-layer {
     position: absolute;

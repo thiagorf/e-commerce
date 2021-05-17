@@ -1,11 +1,24 @@
 <template>
     <div>
-        <div v-if="products">
-            <p
+        <div v-if="products" class="content">
+            <div class="card" v-for="product in products" :key="product.id">
+                <div class="img">
+                    CONTEUDO
+                </div>
+                <div class=card-info>
+                    <h6 v-text="product.name"></h6>
+                    <p v-text="product.description"></p>
+                    <span>
+                        R${{product.price}},00
+                    </span>
+                    <button @click="removeFromFavorites(product.id)">Desfavoritar</button>
+                </div>
+            </div>
+            <!--<p
             v-for="product in products" :key="product.id"
             v-text="product.name"
             >
-            </p>
+            </p> -->
         </div>
         <div v-else>
             <p>É necessário fazer login para acessar os favoritos</p>
@@ -42,30 +55,40 @@ export default {
             }
         }
     },
-    created() {
-        console.log(this.favorite.data)
-        
-        if(this.favorite.data){
-            axios.get(`/api/favorites/${this.favorite.data.id}/products`)
-                .then(response => {
-                    this.products = response.data.products
-                })
-        }else {
-            this.$router.push('/login')
+    methods: {
+        async getFavorite() {
+            await this.$store.dispatch('SET_FAVORITE') 
+            if(this.favorite.data){
+                axios.get(`/api/favorites/${this.favorite.data.id}/products`)
+                    .then(response => {
+                        this.products = response.data.products
+                    })
+            }else {
+                this.$router.push('/login')
+            }
+        },
+        removeFromFavorites(id) {
+            const favoriteId = this.favorite.data.id
+            axios.delete(`/api/favorites/${favoriteId}/products`, {
+                data: id
+            })
+            .then(response => {
+                //possivelmente o component message entraria aqui
+                console.log(response.data.message)
+                this.getFavorite()
+            })
         }
-        // setTimeout(() => {
-        //     if(this.favorite.data == 'Define favorites relantionship') {
-        //         console.log(this.favorite)
-        //         return;
-        //     }else {
-        //         axios.get(`/api/favorites/${this.favorite.data.id}/products`)
-        //                 .then(response => {
-        //                     this.products = response.data.products
-        //                     //[T01] Alternativa aos produtos
-        //                     //this.favoriteProduct = response.data.products
-        //                 })
-        //     }
-        // }, 1500) 
+    },
+    created() {
+        this.getFavorite()
     }
 }
 </script>
+<style lang="scss" scoped>
+@import './../../sass/grid';
+p {
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+</style>

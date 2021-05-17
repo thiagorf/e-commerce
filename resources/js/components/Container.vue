@@ -96,16 +96,22 @@ export default {
 @use './../../sass/base';
 
 .nav-bar {
-    margin: 0 auto 5px auto;
+    margin: 5px auto 5px auto;
     .links {
-    position: relative;
-    display: flex;
-    width: 84.5%;
-    justify-content: space-between;
+        position: relative;
+        display: flex;
+        width: 84.5%;
+        height: 100%;
+        justify-content: space-between;
         margin: 0 auto;
         border-bottom: 1px solid rgb(218, 149, 149);
     }
-    
+    .links a {
+        padding: 3px;
+    }
+    .links a.router-link-exact-active {
+        background: rgb(218, 149, 149);
+    }
     padding: 5px 0;
 }
 
