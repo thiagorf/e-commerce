@@ -30,9 +30,13 @@
                 </tbody>
             </table>
         </div>
+        <div v-else>
+            <Spinner />
+        </div>
     </div>
 </template>
 <script>
+import Spinner from './../Spinner'
 export default {
     name: 'OrdersDashboard',
     data() {
@@ -56,6 +60,9 @@ export default {
             .then(response => {
                 this.orders = response.data.orders
             })
+    },
+    components: {
+        Spinner
     }
 }
 </script>

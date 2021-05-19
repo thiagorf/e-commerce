@@ -21,11 +21,12 @@
             </p> -->
         </div>
         <div v-else>
-            <p>É necessário fazer login para acessar os favoritos</p>
+            <Spinner />
         </div>
     </div>
 </template>
 <script>
+import Spinner from './Spinner'
 export default {
     name: 'Favorite',
     data() {
@@ -81,7 +82,11 @@ export default {
     },
     created() {
         this.getFavorite()
+    },
+    components: {
+        Spinner
     }
+
 }
 </script>
 <style lang="scss" scoped>

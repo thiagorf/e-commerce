@@ -54,11 +54,12 @@
             <!-- {{login.data}} -->
         </div>
         <div v-else>
-            <p>Carregando...</p>
+            <Spinner />
         </div>
     </div>
 </template>
 <script>
+import Spinner from './Spinner'
 export default {
     name: 'cart',
     data() {
@@ -109,7 +110,6 @@ export default {
             const products = this.products
             const product = []
             const pId = this.formData.productId
-            const dirtArray = []
             const data = []
             for (let i = 0; i < products.length; i++) {
                 product.push(products[i].id)
@@ -125,7 +125,6 @@ export default {
                           data.push(products[i].id)
                       } 
                    } 
-                    //data.push(products[i].id)
                 }
             }else {
                 products.forEach(element => {
@@ -133,18 +132,8 @@ export default {
                 });
             }
             pId.push(...data)
-
             this.formData.productId = [ ...new Set(pId)]
-
-            
-            //pId.filter((v, i, a) => a.indexOf(v) === i)
-
             data.slice(0, data.length)
-            /*
-            products.forEach(element => {
-                this.formData.productId.push(element.id)
-            });
-            */
         },
         makeOrder() {
             axios.post('/api/orders', this.formData)
@@ -164,6 +153,9 @@ export default {
     },
     created() {
         this.showCart()
+    },
+    components: {
+        Spinner
     } 
 }
 </script>

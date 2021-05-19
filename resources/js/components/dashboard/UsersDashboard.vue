@@ -33,11 +33,12 @@
             </table>
         </div>
         <div v-else>
-            <p>Carregando...</p>
+            <Spinner />
         </div>
     </div>   
 </template>
 <script>
+import Spinner from './../Spinner'
 export default {
     name: 'UsersDashboard',
     data() {
@@ -53,7 +54,6 @@ export default {
     methods: {
         dateConvert(data) {
             const date = new Date(data)
-            console.log();
             return date.toLocaleDateString()
         }
     },
@@ -61,8 +61,10 @@ export default {
         axios.get('/api/users')
             .then(response => {
                 this.users = response.data.users
-                console.log(this.users)
             })
+    },
+    components: {
+        Spinner
     }
 }
 </script>

@@ -4,12 +4,20 @@
             <div class="links">
                 <router-link to="/">Home</router-link>
 
-                    <button v-if="isLogged.data" @click="showProfile">Porfile</button>
-                    <div v-if="profileModal" class="popUp">
-                        <button @click="profileModal = false">Fechar</button>
-                        <router-link v-if="role" to="/dashboard">Dashboard</router-link>
-                        <button @click="logout">Sair</button>
-                    </div>
+                <router-link to="/cart">Cart</router-link>
+                <router-link to="/favorite">Favorite</router-link>
+                    <button 
+                        v-if="isLogged.data" 
+                        @click="profileModal = !profileModal" 
+                        ref="dropdown"
+                        :class="{dropdown: profileModal}"
+                    >
+                        Porfile
+                    </button>
+                        <div class="popUp"  v-if="profileModal">
+                            <router-link v-if="role" to="/dashboard">Dashboard</router-link>
+                            <button @click="logout">Sair</button>
+                        </div>
 
                 <!--
                 <div v-if="isLogged.data">
@@ -24,8 +32,6 @@
                 </div>-->
                 <router-link v-if="!isLogged.data" to="/login">Login</router-link>
                 <!-- <router-link to="/register">Register</router-link> -->
-                <router-link to="/cart">Cart</router-link>
-                <router-link to="/favorite">Favorite</router-link>
             </div>
         </div>
             <router-view></router-view>
@@ -62,6 +68,19 @@ export default {
             favoriteProducts: SET_FAVORITE_PRODUCT,
             checkRole: SET_ROLE
         }),
+        showModal() {
+            console.log('show')
+            this.profileModal = !this.profileModal
+        },
+        close(e) {
+            let el = this.$refs.dropdown
+            let target = e.target
+            if(el) {
+                if ((el !== target) && !el.contains(target)) {
+                    this.profileModal = false
+                }
+            }
+        },
         logout() {
             axios.get('/api/logout').then(res => {
                 console.log(res)
@@ -72,7 +91,6 @@ export default {
                 if(!(this.$route.path == '/')) {
                     this.$router.push('/')
                 }
-                //this.$router.push('/');
             }).catch(err => {
                 console.log(err)
             })
@@ -83,20 +101,23 @@ export default {
     },
     created() {
         console.log('Container component')
+        document.addEventListener("click", this.close)
         this.checkRole()
         this.login()
     },
-    updated() {
-       
+    destroyed() {
+        document.removeEventListener("click", this.close)
     }
 }
 </script>
 <style lang="scss">
 
-@use './../../sass/base';
+@import'./../../sass/base';
+@import './../../sass/variables';
 
 .nav-bar {
     margin: 5px auto 5px auto;
+    padding: 5px 0;
     .links {
         position: relative;
         display: flex;
@@ -106,13 +127,20 @@ export default {
         margin: 0 auto;
         border-bottom: 1px solid rgb(218, 149, 149);
     }
-    .links a {
+    .links a, .links button {
         padding: 3px;
     }
     .links a.router-link-exact-active {
         background: rgb(218, 149, 149);
     }
-    padding: 5px 0;
+    .links a.router-link-exact-active:first-child {
+        background: rgb(218, 149, 149);
+        border-top-left-radius: 3px;
+    }
+    .links a.router-link-exact-active:last-child {
+        background: rgb(218, 149, 149);
+        border-top-right-radius: 3px;
+    }
 }
 
 .popUp {
@@ -120,12 +148,18 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    background: #FFF;    
+    background: $border-color;    
+    border-radius: 3px 0 3px 3px;
     z-index: 60;
     padding: 5px;
     width: 100px;
     height: 80px;
-    top: 16px;
-    left: 28%;
+    top: 24px;
+    right: 0;
+}
+.dropdown {
+    //padding: 3px;
+    background: rgb(218, 149, 149);
+    border-top-right-radius: 3px;
 }
 </style>
