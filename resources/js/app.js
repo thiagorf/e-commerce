@@ -15,12 +15,15 @@ import router from './routes/routes.js'
 import store from './store/store.js'
 
 import Container from './components/Container.vue'
-import axios from 'axios';
 
+//import { library } from '@fortawesome/vue-fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUser, faHeart, faShoppingCart, faTrash, faPen, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-
-
-
+library.add(faUser, faHeart, farHeart, faShoppingCart, faTrash, faPen, faSearch)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 /**
  * The following block of code may be used to automatically register your

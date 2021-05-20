@@ -38,18 +38,18 @@
                                 v-if="showFavorite(product.id)" 
                                 @click="removeFavorite(product.id)"
                             >
-                                F
+                                <font-awesome-icon :icon="['fas', 'heart']" class="fav-wrapper"/>
                             </button>
                            
                             <button 
                                 v-else 
                                 @click="addFavorite(product.id)"
                             >
-                                f
+                                <font-awesome-icon :icon="['far', 'heart']" class="fav-wrapper"/>
                             </button>
                         </div>
                         <div class="fav-layer" v-else>
-                            <button @click="showLogin">FX</button>
+                            <button @click="showLogin"><font-awesome-icon :icon="['far', 'heart']" class="fav-wrapper" /></button>
                         </div>
                     </div>
                     <div class="card-info">
@@ -190,6 +190,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import './../../sass/grid';
+@import './../../sass/variables';
 
 
 .fav-layer {
@@ -197,5 +198,8 @@ export default {
     z-index: 5;
     top: 0;
     right: 5px;
+}
+.fav-wrapper {
+    color: $border-color;
 }
 </style>

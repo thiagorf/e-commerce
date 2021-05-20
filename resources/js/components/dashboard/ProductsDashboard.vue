@@ -51,8 +51,8 @@
                                     </option>
                                 </select>
                             </td>
-                            <td><button @click="showModal(product.id)">Editar</button></td>
-                            <td></td>
+                            <td><button @click="showModal(product.id)"><font-awesome-icon :icon="['fas', 'pen']" /></button></td>
+                            <td><font-awesome-icon :icon="['fas', 'trash']"/></td>
                         </tr>
                     </tbody>
                 </table>

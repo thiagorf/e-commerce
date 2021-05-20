@@ -4,15 +4,15 @@
             <div class="links">
                 <router-link to="/">Home</router-link>
 
-                <router-link to="/cart">Cart</router-link>
-                <router-link to="/favorite">Favorite</router-link>
+                <router-link to="/cart"><font-awesome-icon :icon="['fas', 'shopping-cart']" /></router-link>
+                <router-link to="/favorite"><font-awesome-icon :icon="['fas', 'heart']" /></router-link>
                     <button 
                         v-if="isLogged.data" 
                         @click="profileModal = !profileModal" 
                         ref="dropdown"
                         :class="{dropdown: profileModal}"
                     >
-                        Porfile
+                        <font-awesome-icon :icon="['fas', 'user']" />
                     </button>
                         <div class="popUp"  v-if="profileModal">
                             <router-link v-if="role" to="/dashboard">Dashboard</router-link>
