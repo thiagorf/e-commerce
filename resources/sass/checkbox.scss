@@ -1,23 +1,22 @@
 @import './variables';
+
+%checkChange {
+    content: "";
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    vertical-align: middle;
+    margin-right: 3px;
+    border: 1px solid $border-color;
+}
+
 input[type="checkbox"] {
     display: none;
 }
 input[type="checkbox"] + label::before {
-    content: "";
-    display: inline-block;
-    width: 13px;
-    height: 13px;
-    margin-right: 3px;
-    border: 1px solid $border-color;
-    vertical-align: middle;
+    @extend %checkChange;
 }
 input[type="checkbox"]:checked + label::before {
-    content: "";
-    display: inline-block;
-    width: 13px;
-    height: 13px;
-    margin-right: 3px;
-    border: 1px solid $border-color;
+    @extend %checkChange;
     background: rgb(224, 140, 140);
-    vertical-align: middle;
 }
