@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Cart;
 
 class OrderController extends Controller
 {
@@ -32,13 +33,19 @@ class OrderController extends Controller
         //order table too
         $order = new Order;
         $order->user()->associate(auth()->user()->id);
-        $order->credit_card()->associate($creditCard->id);
+        //$order->credit_card()->associate($creditCard->id);
+        $order->credit_card()->associate(1);
         $order->save();
+        $order->products()->attach($request->productId);
+        
+        $cartId = auth()->user()->cart->id;
+        $cart = Cart::find($cartId);
+        $cart->products()->detach($request->productId);
 
-
+        return response()->json(['message' => 'Products in shopping cart has bem purchase'], 201);
     }
 
-    public function orderProducts(Request $request, $id)
+   /*public function orderProducts(Request $request, $id)
     {
         /**
          * Fluxo de compra
@@ -48,7 +55,7 @@ class OrderController extends Controller
          * o pedido entao é associado com os id dos produtos selecionados
          * se houver cartao registrado, ele é utilizado, se não
          * será criado um,
-         */
+         
         
         
         //VERIFICAR A NECESSIDADE
@@ -77,5 +84,5 @@ class OrderController extends Controller
 
 
         return response()->json(['message' => 'Products in shopping cart has bem purchase'], 201);
-    }
+    }*/
 }

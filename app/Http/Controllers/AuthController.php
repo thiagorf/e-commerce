@@ -21,9 +21,7 @@ class AuthController extends Controller
     public function checkPermission()
     {
         if(auth()->user()){
-            // auth()->user()->roles->first()->role == 'admin'
             if(auth()->user()->roles->first()->role == 'admin') return true;
-            //return false
         }else {
             return false;
         }
