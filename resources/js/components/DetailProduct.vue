@@ -56,14 +56,11 @@ export default {
             this.formData.id = id
 
             const data = this.formData
-            //const id = this.login.data.id
 
-            // retornar somemte um boolean não uma string
             if(!this.login.data) {
                 this.message = 'Você precisa estar logado para usar o carrinho'
 
             }else {
-                //this.$store.dispatch('userLogin')
                 axios.post(`/api/carts/${this.login.data.id}/products`, data)
                     .then(response => {
                         this.message = response.data.message

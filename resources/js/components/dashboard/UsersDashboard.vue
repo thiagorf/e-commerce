@@ -18,9 +18,8 @@
                         <td v-text="user.email"></td>
                         <td v-text="dateConvert(user.created_at)"></td>
                         <td>
-                            <select>
+                            <select><!-- selecionar cada pedido feito pelo usario e os produtos de cada um -->
                                 <option 
-                                    
                                     v-for="(product, index) in user.orders.products" :key="index"
                                     :value="product.name"
                                     v-text="product.name"

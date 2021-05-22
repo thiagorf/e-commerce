@@ -48,10 +48,6 @@
                 -->
 
             </div>
-            <!-- <button @click="makeOrder">Fazer Pedido</button>
-             <p v-for="product in products" :key="product.id" v-text="product.name"></p>
-            <button @click="test">Login</button> -->
-            <!-- {{login.data}} -->
         </div>
         <div v-else>
             <Spinner />
@@ -67,11 +63,13 @@ export default {
             products: null,
             formData: {
                 productId: [],
+            }
+            /*
                 cardNumber: '',
                 cvv: '',
                 owner: '',
                 expiryDate: ''
-            }
+            */
         }
     },
     computed: {
@@ -137,6 +135,10 @@ export default {
         },
         makeOrder() {
             axios.post('/api/orders', this.formData)
+                .then(response => {
+                    console.log(response.data.message)
+                    this.showCart()
+                })
         },
         async showCart() {
             await this.$store.dispatch('SET_LOGIN')
@@ -179,7 +181,6 @@ export default {
 .cart-layer {
     display: flex;
     justify-content: space-between;
-    //padding: 4px;
     p {
         margin-left: 12px;
     }

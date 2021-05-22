@@ -35,7 +35,6 @@ import {SET_LOGIN, SET_FAVORITE, SET_FAVORITE_PRODUCT, SET_ROLE} from './../stor
                 favoriteProducts: SET_FAVORITE_PRODUCT,
                 checkRole: SET_ROLE
             }),
-            //old name mudar
             login() {
                 axios.get('/sanctum/csrf-cookie')
                     .then(re => {
@@ -58,12 +57,6 @@ import {SET_LOGIN, SET_FAVORITE, SET_FAVORITE_PRODUCT, SET_ROLE} from './../stor
                 await axios.get('/api/logout')
                 await this.$store.dispatch('SET_FAVORITE')
                 this.$router.push('/');
-                /*axios.get('/api/logout').then(res => {
-                    console.log(res)
-                    this.$router.push('/');
-                }).catch(err => {
-                    console.log(err)
-                })*/
             },
         }
     }

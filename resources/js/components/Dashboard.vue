@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="vertical-bar">
+        <div class="horizontal-bar">
             <router-link :to="{ name: 'users' }">Usuarios</router-link>
             <router-link :to="{ name: 'categories'}">Categorias</router-link>
             <router-link :to="{ name: 'orders'}">Pedidos</router-link>
@@ -16,13 +16,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 
-.vertical-bar {
+.horizontal-bar {
     display: flex;
     justify-content: space-between;
     width: 84.5%;
     margin: 0 auto;
     a {
-        font-size: 12px;
+        font-size: .75em;
     }
 }
 </style>

@@ -13085,12 +13085,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     return {
       products: null,
       formData: {
-        productId: [],
-        cardNumber: '',
-        cvv: '',
-        owner: '',
-        expiryDate: ''
+        productId: []
       }
+      /*
+          cardNumber: '',
+          cvv: '',
+          owner: '',
+          expiryDate: ''
+      */
+
     };
   },
   computed: {
@@ -13162,10 +13165,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       data.slice(0, data.length);
     },
     makeOrder: function makeOrder() {
-      axios.post('/api/orders', this.formData);
+      var _this2 = this;
+
+      axios.post('/api/orders', this.formData).then(function (response) {
+        console.log(response.data.message);
+
+        _this2.showCart();
+      });
     },
     showCart: function showCart() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var loginId;
@@ -13174,16 +13183,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this2.$store.dispatch('SET_LOGIN');
+                return _this3.$store.dispatch('SET_LOGIN');
 
               case 2:
-                if (_this2.login.data) {
-                  loginId = _this2.login.data.id;
+                if (_this3.login.data) {
+                  loginId = _this3.login.data.id;
                   axios.get("/api/carts/".concat(loginId, "/products")).then(function (response) {
-                    _this2.products = response.data.products;
+                    _this3.products = response.data.products;
                   });
                 } else {
-                  _this2.$router.push('/login');
+                  _this3.$router.push('/login');
                 }
 
               case 3:
@@ -13272,12 +13281,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       profileModal: false
     };
   },
-  //watch: {
-  //   role() {
-  //        console.log(this.haveAccess)
-  //        return this.haveAccess.length
-  //    }        
-  //},
   computed: {
     role: function role() {
       return this.$store.state.login.role;
@@ -13293,7 +13296,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     checkRole: _store_modules_mutations_type__WEBPACK_IMPORTED_MODULE_0__.SET_ROLE
   })), {}, {
     showModal: function showModal() {
-      console.log('show');
       this.profileModal = !this.profileModal;
     },
     close: function close(e) {
@@ -13310,8 +13312,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       axios.get('/api/logout').then(function (res) {
-        console.log(res);
-
         _this.$store.commit('SET_ROLE', null);
 
         _this.login();
@@ -13326,9 +13326,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })["catch"](function (err) {
         console.log(err);
       });
-    },
-    showProfile: function showProfile() {
-      this.profileModal = true;
     }
   }),
   created: function created() {
@@ -13823,14 +13820,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Favorite',
   data: function data() {
     return {
-      products: null
+      products: null,
+      formData: {
+        id: ''
+      }
     };
   },
   watch: {
@@ -13844,15 +13842,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   computed: {
     favorite: function favorite() {
       return this.$store.state.login.favorite;
-    },
-    //Entaria aqui o state favoriteProduct
-    favoriteProduct: {
-      get: function get() {
-        return this.$store.state.favoriteProduct;
-      },
-      set: function set(value) {
-        this.$store.commit('SET_FAVORITE_PRODUCT', value);
-      }
     }
   },
   methods: {
@@ -13887,14 +13876,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     removeFromFavorites: function removeFromFavorites(id) {
       var _this2 = this;
 
+      console.log(id);
+      this.formData.id = id;
       var favoriteId = this.favorite.data.id;
       axios["delete"]("/api/favorites/".concat(favoriteId, "/products"), {
-        data: id
+        data: this.formData
       }).then(function (response) {
         //possivelmente o component message entraria aqui
         console.log(response.data.message);
 
         _this2.getFavorite();
+      });
+    },
+    showMore: function showMore(id) {
+      this.$router.push({
+        name: 'products',
+        params: {
+          id: id
+        }
       });
     }
   },
@@ -14428,6 +14427,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -14442,7 +14445,9 @@ __webpack_require__.r(__webpack_exports__);
         form: false,
         tagId: '',
         tagName: ''
-      }
+      },
+      editCategory: null,
+      showEditModal: false
     };
   },
   watch: {
@@ -14451,10 +14456,27 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    editCategory: function editCategory(id, e) {
-      this.formData.tag = e.target.value;
-      var data = this.formData;
-      axios.put("/api/categories/".concat(id), data).then(function (response) {});
+    updateCategory: function updateCategory(id) {
+      var _this = this;
+
+      axios.put("/api/categories/".concat(id), this.editCategory).then(function (response) {
+        _this.showEditModal = false;
+
+        _this.getCategories();
+      });
+      /*this.formData.tag = e.target.value
+      const data = this.formData
+        axios.put(`/api/categories/${id}`, data)
+          .then(response => {
+          })*/
+    },
+    editModal: function editModal(id) {
+      var _this2 = this;
+
+      axios.get("/api/categories/".concat(id)).then(function (response) {
+        _this2.editCategory = response.data.category;
+        _this2.showEditModal = true;
+      });
     },
     // Pensar na paginação de cada dashboard
     showModal: function showModal(id, tagName) {
@@ -14463,21 +14485,21 @@ __webpack_require__.r(__webpack_exports__);
       this.deletTag.tagName = tagName;
     },
     deleteCategory: function deleteCategory() {
-      var _this = this;
+      var _this3 = this;
 
       var id = this.deletTag.tagId;
       axios["delete"]("/api/categories/".concat(id)).then(function (response) {
-        _this.getCategories();
+        _this3.getCategories();
       });
     },
     cancelModal: function cancelModal() {
       this.deletTag.form = false;
     },
     getCategories: function getCategories() {
-      var _this2 = this;
+      var _this4 = this;
 
       axios.get('/api/categories').then(function (response) {
-        _this2.categories = response.data.categories;
+        _this4.categories = response.data.categories;
       });
     }
   },
@@ -14738,7 +14760,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Spinner__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../Spinner */ "./resources/js/components/Spinner.vue");
-//
 //
 //
 //
@@ -19936,7 +19957,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "input[type=checkbox][data-v-b7f93bea] {\n  display: none;\n}\ninput[type=checkbox] + label[data-v-b7f93bea]::before {\n  content: \"\";\n  display: inline-block;\n  width: 13px;\n  height: 13px;\n  margin-right: 3px;\n  border: 1px solid #da9595;\n  vertical-align: middle;\n}\ninput[type=checkbox]:checked + label[data-v-b7f93bea]::before {\n  content: \"\";\n  display: inline-block;\n  width: 13px;\n  height: 13px;\n  margin-right: 3px;\n  border: 1px solid #da9595;\n  background: #e08c8c;\n  vertical-align: middle;\n}\n.select-products-container[data-v-b7f93bea] {\n  display: flex;\n  flex-direction: column;\n  padding: 4px 4px 4px 0;\n  width: 84.5%;\n  margin: 0 auto;\n}\n.select-products-container button[data-v-b7f93bea] {\n  align-self: flex-end;\n  background: #f8ceb9;\n  padding: 3px;\n  margin-top: 3px;\n  width: 100%;\n}\n.cart-layer[data-v-b7f93bea] {\n  display: flex;\n  justify-content: space-between;\n}\n.cart-layer p[data-v-b7f93bea] {\n  margin-left: 12px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "input[type=checkbox]:checked + label[data-v-b7f93bea]::before, input[type=checkbox] + label[data-v-b7f93bea]::before {\n  content: \"\";\n  display: inline-block;\n  width: 13px;\n  height: 13px;\n  vertical-align: middle;\n  margin-right: 3px;\n  border: 1px solid #da9595;\n}\ninput[type=checkbox][data-v-b7f93bea] {\n  display: none;\n}\ninput[type=checkbox]:checked + label[data-v-b7f93bea]::before {\n  background: #e08c8c;\n}\n.select-products-container[data-v-b7f93bea] {\n  display: flex;\n  flex-direction: column;\n  padding: 4px 4px 4px 0;\n  width: 84.5%;\n  margin: 0 auto;\n}\n.select-products-container button[data-v-b7f93bea] {\n  align-self: flex-end;\n  background: #f8ceb9;\n  padding: 3px;\n  margin-top: 3px;\n  width: 100%;\n}\n.cart-layer[data-v-b7f93bea] {\n  display: flex;\n  justify-content: space-between;\n}\n.cart-layer p[data-v-b7f93bea] {\n  margin-left: 12px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -19960,7 +19981,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n  margin: 0;\n  padding: 0;\n  outline: none;\n  box-sizing: border-box;\n  font-size: 16px;\n  font-family: \"Roboto\";\n}\nbody {\n  background: #FFE9DE;\n  width: 100%;\n  color: rgba(20, 20, 20, 0.808);\n}\na {\n  font-weight: 600;\n  text-decoration: none;\n  color: rgba(20, 20, 20, 0.808);\n}\n.container {\n  display: flex;\n  flex-direction: column;\n}\nbutton {\n  border: 0;\n  background: none;\n}\n.nav-bar {\n  margin: 5px auto 5px auto;\n  padding: 5px 0;\n}\n.nav-bar .links {\n  position: relative;\n  display: flex;\n  width: 84.5%;\n  height: 100%;\n  justify-content: space-between;\n  margin: 0 auto;\n  border-bottom: 1px solid #da9595;\n}\n.nav-bar .links a, .nav-bar .links button {\n  padding: 3px;\n}\n.nav-bar .links a.router-link-exact-active {\n  background: #da9595;\n}\n.nav-bar .links a.router-link-exact-active:first-child {\n  background: #da9595;\n  border-top-left-radius: 3px;\n}\n.nav-bar .links a.router-link-exact-active:last-child {\n  background: #da9595;\n  border-top-right-radius: 3px;\n}\n.popUp {\n  position: absolute;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n  background: #da9595;\n  border-radius: 3px 0 3px 3px;\n  z-index: 60;\n  padding: 5px;\n  width: 100px;\n  height: 80px;\n  top: 24px;\n  right: 0;\n}\n.dropdown {\n  background: #da9595;\n  border-top-right-radius: 3px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\n  margin: 0;\n  padding: 0;\n  outline: none;\n  box-sizing: border-box;\n  font-family: \"Roboto\";\n}\nbody {\n  background: #FFE9DE;\n  font-size: 16px;\n  width: 100%;\n  color: rgba(20, 20, 20, 0.808);\n}\na {\n  font-weight: 600;\n  text-decoration: none;\n  color: rgba(20, 20, 20, 0.808);\n}\n.container {\n  display: flex;\n  flex-direction: column;\n}\nbutton {\n  border: 0;\n  background: none;\n}\n@media screen and (min-width: 360px) {\nbody {\n    font-size: calc(14px + (16 - 14) * ((100vw - 360px) / (1440 - 360)));\n}\n}\n@media screen and (min-width: 1440px) {\nbody {\n    font-size: 16px;\n}\n}\n.nav-bar {\n  margin: 5px auto 5px auto;\n  padding: 5px 0;\n}\n.nav-bar .links {\n  position: relative;\n  display: flex;\n  width: 84.5%;\n  height: 100%;\n  justify-content: space-between;\n  margin: 0 auto;\n  border-bottom: 1px solid #da9595;\n}\n.nav-bar .links a, .nav-bar .links button {\n  padding: 3px;\n}\n.nav-bar .links a.router-link-exact-active {\n  background: #da9595;\n}\n.nav-bar .links a.router-link-exact-active:first-child {\n  background: #da9595;\n  border-top-left-radius: 3px;\n}\n.nav-bar .links a.router-link-exact-active:last-child {\n  background: #da9595;\n  border-top-right-radius: 3px;\n}\n.popUp {\n  position: absolute;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n  background: #da9595;\n  border-radius: 3px 0 3px 3px;\n  z-index: 60;\n  padding: 5px;\n  width: 100px;\n  height: 80px;\n  top: 24px;\n  right: 0;\n}\n.dropdown {\n  background: #da9595;\n  border-top-right-radius: 3px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -19984,7 +20005,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".content[data-v-7f690d44] {\n  display: grid;\n  width: 84.5px;\n  margin: 0 auto;\n  grid-template-columns: repeat(2, 147px);\n  -moz-column-gap: 5px;\n       column-gap: 5px;\n  row-gap: 10px;\n  gap: 10px;\n  justify-content: center;\n}\n.card[data-v-7f690d44] {\n  margin-top: 10px;\n  width: 147px;\n  height: 200px;\n  border: 1px solid #da9595;\n  border-radius: 5px;\n}\n.img[data-v-7f690d44] {\n  position: relative;\n  width: 100%;\n  height: 130px;\n  border-bottom: 1px solid #da9595;\n}\n.card-info[data-v-7f690d44] {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 70px;\n}\n.card-info h6[data-v-7f690d44] {\n  font-size: 21px;\n  font-weight: 700;\n}\n.card-info span[data-v-7f690d44] {\n  font-weight: 400;\n}\n.card-info button[data-v-7f690d44] {\n  font-weight: 800;\n  widows: 100%;\n  background: #f8ceb9;\n  border-radius: 0 0 5px 5px;\n  padding: 3px;\n  margin-top: 3px;\n}\n.fav-layer[data-v-7f690d44] {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  right: 5px;\n}\n.fav-wrapper[data-v-7f690d44] {\n  color: #da9595;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".content[data-v-7f690d44] {\n  display: grid;\n  max-width: 84.5vw;\n  width: 84.5%;\n  height: 100%;\n  margin: 0 auto;\n  grid-template-columns: repeat(auto-fit, minmax(147px, 1fr));\n  grid-auto-rows: minmax(200px, 1fr);\n  -moz-column-gap: 5px;\n       column-gap: 5px;\n  row-gap: 10px;\n  gap: 10px;\n  justify-content: center;\n}\n.card[data-v-7f690d44] {\n  margin-top: 10px;\n  /*width: 147px;\n  height: 200px;*/\n  border: 1px solid #da9595;\n  border-radius: 5px;\n}\n.img[data-v-7f690d44] {\n  position: relative;\n  width: 100%;\n  height: 64.35%;\n  border-bottom: 1px solid #da9595;\n}\n.card-info[data-v-7f690d44] {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 35.65%;\n  justify-content: space-between;\n}\n.card-info h6[data-v-7f690d44] {\n  font-size: 1.3125em;\n  font-weight: 700;\n}\n.card-info span[data-v-7f690d44] {\n  font-weight: 400;\n}\n.card-info button[data-v-7f690d44] {\n  font-weight: 800;\n  width: 100%;\n  background: #f8ceb9;\n  border-radius: 0 0 5px 5px;\n  padding: 2px;\n  margin-top: 3px;\n}\n.fav-wrapper[data-v-7f690d44] {\n  color: #da9595;\n}\n.fav-layer[data-v-7f690d44] {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  right: 5px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20008,7 +20029,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".vertical-bar[data-v-040e2ab9] {\n  display: flex;\n  justify-content: space-between;\n  width: 84.5%;\n  margin: 0 auto;\n}\n.vertical-bar a[data-v-040e2ab9] {\n  font-size: 12px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".horizontal-bar[data-v-040e2ab9] {\n  display: flex;\n  justify-content: space-between;\n  width: 84.5%;\n  margin: 0 auto;\n}\n.horizontal-bar a[data-v-040e2ab9] {\n  font-size: 0.75em;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20056,7 +20077,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".content[data-v-3982b107] {\n  display: grid;\n  width: 84.5px;\n  margin: 0 auto;\n  grid-template-columns: repeat(2, 147px);\n  -moz-column-gap: 5px;\n       column-gap: 5px;\n  row-gap: 10px;\n  gap: 10px;\n  justify-content: center;\n}\n.card[data-v-3982b107] {\n  margin-top: 10px;\n  width: 147px;\n  height: 200px;\n  border: 1px solid #da9595;\n  border-radius: 5px;\n}\n.img[data-v-3982b107] {\n  position: relative;\n  width: 100%;\n  height: 130px;\n  border-bottom: 1px solid #da9595;\n}\n.card-info[data-v-3982b107] {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 70px;\n}\n.card-info h6[data-v-3982b107] {\n  font-size: 21px;\n  font-weight: 700;\n}\n.card-info span[data-v-3982b107] {\n  font-weight: 400;\n}\n.card-info button[data-v-3982b107] {\n  font-weight: 800;\n  widows: 100%;\n  background: #f8ceb9;\n  border-radius: 0 0 5px 5px;\n  padding: 3px;\n  margin-top: 3px;\n}\np[data-v-3982b107] {\n  overflow-x: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".content[data-v-3982b107] {\n  display: grid;\n  max-width: 84.5vw;\n  width: 84.5%;\n  height: 100%;\n  margin: 0 auto;\n  grid-template-columns: repeat(auto-fit, minmax(147px, 1fr));\n  grid-auto-rows: minmax(200px, 1fr);\n  -moz-column-gap: 5px;\n       column-gap: 5px;\n  row-gap: 10px;\n  gap: 10px;\n  justify-content: center;\n}\n.card[data-v-3982b107] {\n  margin-top: 10px;\n  /*width: 147px;\n  height: 200px;*/\n  border: 1px solid #da9595;\n  border-radius: 5px;\n}\n.img[data-v-3982b107] {\n  position: relative;\n  width: 100%;\n  height: 64.35%;\n  border-bottom: 1px solid #da9595;\n}\n.card-info[data-v-3982b107] {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 35.65%;\n  justify-content: space-between;\n}\n.card-info h6[data-v-3982b107] {\n  font-size: 1.3125em;\n  font-weight: 700;\n}\n.card-info span[data-v-3982b107] {\n  font-weight: 400;\n}\n.card-info button[data-v-3982b107] {\n  font-weight: 800;\n  width: 100%;\n  background: #f8ceb9;\n  border-radius: 0 0 5px 5px;\n  padding: 2px;\n  margin-top: 3px;\n}\n.fav-wrapper[data-v-3982b107] {\n  color: #da9595;\n}\np[data-v-3982b107] {\n  overflow-x: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20080,7 +20101,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "form[data-v-6bdc8b8e] {\n  align-self: center;\n  display: flex;\n  flex-direction: column;\n  width: 75%;\n  border: 1px solid #da9595;\n  border-radius: 5px;\n}\nform .field[data-v-6bdc8b8e] {\n  display: flex;\n  flex-direction: column;\n  align-self: center;\n  width: 95%;\n  margin: 5px;\n}\nform button[data-v-6bdc8b8e] {\n  font-weight: 800;\n  align-self: flex-end;\n  width: 100%;\n  border-radius: 0 0 5px 5px;\n  background: #f8ceb9;\n}\nform a[data-v-6bdc8b8e] {\n  margin-left: 6.5px;\n  font-size: 12px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "form[data-v-6bdc8b8e] {\n  align-self: center;\n  display: flex;\n  flex-direction: column;\n  width: 75%;\n  border: 1px solid #da9595;\n  border-radius: 5px;\n}\nform .field[data-v-6bdc8b8e] {\n  display: flex;\n  flex-direction: column;\n  align-self: center;\n  width: 95%;\n  margin: 5px;\n}\nform button[data-v-6bdc8b8e] {\n  font-weight: 800;\n  align-self: flex-end;\n  width: 100%;\n  border-radius: 0 0 5px 5px;\n  background: #f8ceb9;\n}\nform a[data-v-6bdc8b8e] {\n  margin-left: 6.5px;\n  font-size: 0.75em;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20152,7 +20173,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "form[data-v-97358ae4] {\n  align-self: center;\n  display: flex;\n  flex-direction: column;\n  width: 75%;\n  border: 1px solid #da9595;\n  border-radius: 5px;\n}\nform .field[data-v-97358ae4] {\n  display: flex;\n  flex-direction: column;\n  align-self: center;\n  width: 95%;\n  margin: 5px;\n}\nform button[data-v-97358ae4] {\n  font-weight: 800;\n  align-self: flex-end;\n  width: 100%;\n  border-radius: 0 0 5px 5px;\n  background: #f8ceb9;\n}\nform a[data-v-97358ae4] {\n  margin-left: 6.5px;\n  font-size: 12px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "form[data-v-97358ae4] {\n  align-self: center;\n  display: flex;\n  flex-direction: column;\n  width: 75%;\n  border: 1px solid #da9595;\n  border-radius: 5px;\n}\nform .field[data-v-97358ae4] {\n  display: flex;\n  flex-direction: column;\n  align-self: center;\n  width: 95%;\n  margin: 5px;\n}\nform button[data-v-97358ae4] {\n  font-weight: 800;\n  align-self: flex-end;\n  width: 100%;\n  border-radius: 0 0 5px 5px;\n  background: #f8ceb9;\n}\nform a[data-v-97358ae4] {\n  margin-left: 6.5px;\n  font-size: 0.75em;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -54121,7 +54142,7 @@ var render = function() {
     [
       _c(
         "div",
-        { staticClass: "vertical-bar" },
+        { staticClass: "horizontal-bar" },
         [
           _c("router-link", { attrs: { to: { name: "users" } } }, [
             _vm._v("Usuarios")
@@ -54273,7 +54294,25 @@ var render = function() {
           _vm._l(_vm.products, function(product) {
             return _c("div", { key: product.id, staticClass: "card" }, [
               _c("div", { staticClass: "img" }, [
-                _vm._v("\n                CONTEUDO\n            ")
+                _vm._v("\n                CONTEUDO\n                "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "fav-layer",
+                    on: {
+                      click: function($event) {
+                        return _vm.removeFromFavorites(product.id)
+                      }
+                    }
+                  },
+                  [
+                    _c("font-awesome-icon", {
+                      staticClass: "fav-wrapper",
+                      attrs: { icon: ["fas", "heart"] }
+                    })
+                  ],
+                  1
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-info" }, [
@@ -54296,11 +54335,11 @@ var render = function() {
                   {
                     on: {
                       click: function($event) {
-                        return _vm.removeFromFavorites(product.id)
+                        return _vm.showMore(product.id)
                       }
                     }
                   },
-                  [_vm._v("Desfavoritar")]
+                  [_vm._v("Ver Mais")]
                 )
               ])
             ])
@@ -54843,6 +54882,55 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
+            _vm.showEditModal
+              ? _c("div", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.editCategory.tag,
+                        expression: "editCategory.tag"
+                      }
+                    ],
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.editCategory.tag },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.editCategory, "tag", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      on: {
+                        click: function($event) {
+                          return _vm.updateCategory(_vm.editCategory.id)
+                        }
+                      }
+                    },
+                    [_vm._v("Atualizar")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      on: {
+                        click: function($event) {
+                          _vm.showEditModal = false
+                        }
+                      }
+                    },
+                    [_vm._v("Cancelar")]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
             _c("CreateCategories", {
               on: { updatedCategories: _vm.getCategories }
             }),
@@ -54858,13 +54946,22 @@ var render = function() {
                       _c("td", [
                         _c("input", {
                           attrs: { type: "text" },
-                          domProps: { value: category.tag },
-                          on: {
-                            blur: function($event) {
-                              return _vm.editCategory(category.id, $event)
-                            }
-                          }
+                          domProps: { value: category.tag }
                         })
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            on: {
+                              click: function($event) {
+                                return _vm.editModal(category.id)
+                              }
+                            }
+                          },
+                          [_vm._v("Edit")]
+                        )
                       ]),
                       _vm._v(" "),
                       _c("td", [
@@ -54900,6 +54997,8 @@ var staticRenderFns = [
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Categoria")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Editar")]),
         _vm._v(" "),
         _c("th", [_vm._v("Excluir")])
       ])

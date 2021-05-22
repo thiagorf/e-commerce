@@ -18,20 +18,7 @@
                             <router-link v-if="role" to="/dashboard">Dashboard</router-link>
                             <button @click="logout">Sair</button>
                         </div>
-
-                <!--
-                <div v-if="isLogged.data">
-                    <button @click="showProfile">Porfile</button>
-                    <div v-if="profileModal">
-                        <button @click="profileModal = false">Fechar</button>
-                        <div v-if="role">
-                            <router-link to="/dashboard">Dashboard</router-link>
-                        </div>
-                        <button @click="logout">Sair</button>
-                    </div>
-                </div>-->
                 <router-link v-if="!isLogged.data" to="/login">Login</router-link>
-                <!-- <router-link to="/register">Register</router-link> -->
             </div>
         </div>
             <router-view></router-view>
@@ -47,12 +34,6 @@ export default {
             profileModal: false
         }
     },
-    //watch: {
-    //   role() {
-    //        console.log(this.haveAccess)
-    //        return this.haveAccess.length
-    //    }        
-    //},
     computed: {
         role() {
             return this.$store.state.login.role
@@ -69,7 +50,6 @@ export default {
             checkRole: SET_ROLE
         }),
         showModal() {
-            console.log('show')
             this.profileModal = !this.profileModal
         },
         close(e) {
@@ -83,7 +63,6 @@ export default {
         },
         logout() {
             axios.get('/api/logout').then(res => {
-                console.log(res)
                 this.$store.commit('SET_ROLE', null)
                 this.login()
                 this.favorite()
@@ -95,9 +74,6 @@ export default {
                 console.log(err)
             })
         },
-        showProfile() {
-            this.profileModal = true
-        }
     },
     created() {
         console.log('Container component')
@@ -158,7 +134,6 @@ export default {
     right: 0;
 }
 .dropdown {
-    //padding: 3px;
     background: rgb(218, 149, 149);
     border-top-right-radius: 3px;
 }

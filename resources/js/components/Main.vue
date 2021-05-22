@@ -1,15 +1,10 @@
 <template>
     <div class="container">
-        <!--<h1>Landing Page</h1>
-        <SearchFilter /> -->
-        <!-- <ShowProduct /> -->
         <ProductFilter @sortData="notifyComponent"/>
         <Content :sort="sortData" />
     </div>
 </template>
 <script>
-//import ShowProduct from './products/ShowProducts.vue'
-//import SearchFilter from './SearchFilter.vue'
 import Content from './Content.vue'
 import ProductFilter from './ProductFilter.vue'
 
@@ -32,13 +27,10 @@ export default {
     },
     methods: {
         notifyComponent(value) {
-            //this.$emit('changeProducts', value)
             this.sortData = value
         },
     },
    components: {
-        //'ShowProduct': ShowProduct,
-        //SearchFilter,
         ProductFilter,
         Content
     },
@@ -46,7 +38,6 @@ export default {
 </script>
 <style lang="scss" scoped>
  
-//@import 'sass/_variables.scss';
 h1 {
     font-size: 5em;
 }

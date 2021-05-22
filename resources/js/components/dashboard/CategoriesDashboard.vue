@@ -5,21 +5,25 @@
                 <h1>Tem certeza que quer excluir</h1>
                 <button @click="deleteCategory">Sim</button><button @click="cancelModal">Não</button>
             </div>
-
+            <div v-if="showEditModal">
+                <input type="text" v-model="editCategory.tag">
+                <button @click="updateCategory(editCategory.id)">Atualizar</button>
+                <button @click="showEditModal = false">Cancelar</button>
+            </div>
             <CreateCategories @updatedCategories="getCategories"/>
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
                             <th>Categoria</th>
-                            <!-- <th>Editar</th> -->
+                            <th>Editar</th>
                             <th>Excluir</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(category, index) in categories" :key="index">
-                            <td><input type="text" :value="category.tag" @blur="editCategory(category.id, $event)"></td>
-                            <!-- <td><button @click="editCategory(category.id)">Edit</button></td> -->
+                            <td><input type="text" :value="category.tag"></td>
+                            <td><button @click="editModal(category.id)">Edit</button></td>
                             <td><button @click="showModal(category.id, category.name)">Delete</button></td>
                         </tr>
                     </tbody>
@@ -47,7 +51,9 @@ export default {
                 form: false,
                 tagId: '',
                 tagName: ''
-            }
+            },
+            editCategory: null,
+            showEditModal: false
         }
     },
     watch: {
@@ -56,21 +62,25 @@ export default {
         }
     },
     methods: {
-        editCategory(id, e){
-            this.formData.tag = e.target.value
-            const data = this.formData
-
-            axios.put(`/api/categories/${id}`, data)
+        updateCategory(id){
+            axios.put(`/api/categories/${id}`, this.editCategory)
                 .then(response => {
+                    this.showEditModal = false
+                    this.getCategories()
                 })
         },
-        // Pensar na paginação de cada dashboard
+        editModal(id) {
+            axios.get(`/api/categories/${id}`)
+                .then(response => {
+                    this.editCategory = response.data.category
+                    this.showEditModal = true
+                })
+        },
         showModal(id, tagName){
             this.deletTag.form = true
             this.deletTag.tagId = id
             this.deletTag.tagName = tagName
         },
-
         deleteCategory() {
             const id = this.deletTag.tagId
             axios.delete(`/api/categories/${id}`)

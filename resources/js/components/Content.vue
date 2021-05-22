@@ -2,33 +2,6 @@
     <div>
         <Message :testMessage.sync="message" @notifyComponent="changeMessage"/>
         <div v-if="products">
-            <!--
-            <table>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nome</th>
-                        <th>Descrição</th>
-                        <th>Preço</th>
-                        <th>Favorito</th>
-                        <th>Açoes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="product in products" :key="product.id">
-                        <td v-text="product.id"></td>
-                        <td v-text="product.name"></td>
-                        <td v-text="product.description"></td>
-                        <td v-text="product.price"></td>
-                        <td v-if="favorite.data">
-                            <button v-if="showFavorite(product.id)" @click="removeFavorite(product.id)">Remover dos favoritos</button>
-                            <button v-else @click="addFavorite(product.id)">Adicionar aos favoritos</button>
-                        </td>
-                        <td><button @click="showMore(product.id)">Ver Mais</button></td>
-                    </tr>
-                </tbody>
-            </table>
-            -->
             <div class="content" v-if="products">
                 <div class="card" v-for="product in products" :key="product.id">
                     <div class="img">
@@ -131,11 +104,9 @@ export default {
                 for(let i = 0; i < favoriteProducts.length; i++) {
                     if(id == favoriteProducts[i].id) {
                         return true
-                        //return 'Yes'
                     }
                 }
                 return false
-                //return 'No';
             }
         },
         async getProducts() {
@@ -158,7 +129,6 @@ export default {
                 this.message = response.data.message
                 this.checkFavorite()
                 // muitas requisições feitas para atualizar o botao
-                //this.$i()
             })
         },
         addFavorite(id) {
@@ -169,7 +139,6 @@ export default {
             .then(response => {
                 this.message = response.data.message
                 this.checkFavorite()
-                //this.$store.dispatch('SET_FAVORITE')
             })
         },
         changeMessage() {
@@ -198,8 +167,5 @@ export default {
     z-index: 5;
     top: 0;
     right: 5px;
-}
-.fav-wrapper {
-    color: $border-color;
 }
 </style>

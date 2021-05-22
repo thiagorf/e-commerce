@@ -4,6 +4,9 @@
             <div class="card" v-for="product in products" :key="product.id">
                 <div class="img">
                     CONTEUDO
+                    <div class="fav-layer" @click="removeFromFavorites(product.id)">
+                        <font-awesome-icon :icon="['fas', 'heart']" class="fav-wrapper"/>
+                    </div>
                 </div>
                 <div class=card-info>
                     <h6 v-text="product.name"></h6>
@@ -11,14 +14,9 @@
                     <span>
                         R${{product.price}},00
                     </span>
-                    <button @click="removeFromFavorites(product.id)">Desfavoritar</button>
+                    <button @click="showMore(product.id)">Ver Mais</button>
                 </div>
             </div>
-            <!--<p
-            v-for="product in products" :key="product.id"
-            v-text="product.name"
-            >
-            </p> -->
         </div>
         <div v-else>
             <Spinner />
@@ -31,7 +29,10 @@ export default {
     name: 'Favorite',
     data() {
         return {
-            products: null
+            products: null,
+            formData: {
+                id: ''
+            }
         }
     },
     watch: {
@@ -46,15 +47,6 @@ export default {
         favorite() {
             return this.$store.state.login.favorite
         },
-        //Entaria aqui o state favoriteProduct
-        favoriteProduct: {
-            get() {
-                return this.$store.state.favoriteProduct
-            },
-            set(value) {
-                this.$store.commit('SET_FAVORITE_PRODUCT', value)
-            }
-        }
     },
     methods: {
         async getFavorite() {
@@ -69,15 +61,20 @@ export default {
             }
         },
         removeFromFavorites(id) {
+            console.log(id)
+            this.formData.id = id
             const favoriteId = this.favorite.data.id
             axios.delete(`/api/favorites/${favoriteId}/products`, {
-                data: id
+                data: this.formData
             })
             .then(response => {
                 //possivelmente o component message entraria aqui
                 console.log(response.data.message)
                 this.getFavorite()
             })
+        },
+        showMore(id) {
+            this.$router.push({name: 'products', params: {id: id}})
         }
     },
     created() {
