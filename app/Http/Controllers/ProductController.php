@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Favorite;
@@ -50,12 +51,10 @@ class ProductController extends Controller
            
             return new ProductCollection($products);
         }
-        //Até aqui
         
         $p = Product::all();
 
         return new ProductCollection($p);
-        //return response()->json(['products' => $products], 200);
     }
 
     public function show($id)
@@ -64,7 +63,6 @@ class ProductController extends Controller
             $product = Product::with('categories')->find($id);
             
             return new ProductResource($product);
-            //return response()->json(['product' => $product], 200);
         }
         
         return response()->json(['message' => 'Product not found'], 404);
@@ -84,15 +82,19 @@ class ProductController extends Controller
             'name' => 'required',
             'description' => 'required',
             'price' => 'required',
-            'tags' => 'required'
+            'tags' => 'required',
+            'productImage' => 'required'
         ]);
-        //O produto deve possuir alguma categorias pra ser criado
+        //$productImageName = $input['productImage']->getClientOriginalName();
         $product = new Product;
         $product->name = $input['name'];
         $product->description = $input['description'];
         $product->price = $input['price'];
+        $product->productImage = $input['productImage']->store('productsImage');
+        //Experimental
+        //$product->productImage = $input['productImage']->storeAs('productsImage', $productImageName);
         $product->save();
-        foreach($request->tags as $tag){
+        foreach($input['tags'] as $tag){
             $product->categories()->attach($tag);
         }
         
@@ -107,13 +109,18 @@ class ProductController extends Controller
                 'name' => 'required',
                 'description' => 'required',
                 'price' => 'required',
-                'tags' => 'required'
+                'tags' => 'required',
             ]);
             
             $product = Product::find($id);
             $product->name = $input['name'];
             $product->description = $input['description'];
             $product->price = $input['price'];
+
+            if($request->has('productImage')) {
+                Storage::delete($product->productImage);
+                $product->productImage = $request->file('productImage')->store('productsImage');
+            }
             $product->save();
 
             $data = [];
@@ -143,7 +150,6 @@ class ProductController extends Controller
 
     public function getProductsCategories($id)
     {
-        //old name getCategories
         if (Product::where('id', $id)->exists()) {
             $product = Product::with('categories')->find($id);
             //opçao numero 2
@@ -151,11 +157,8 @@ class ProductController extends Controller
             //Ex: $products->categories
             //$categories = Product::find($id)->categories()->get();
             $categories = Product::with('categories')->find($id);
-            //retornar o produto completo ou so as categorias?
 
             return new ProductResource($categories);
-            //return new CategoriesCollection($categories);
-            //return response()->json(['categories' => $categories], 200);
         }
         
         return response()->json(['message' => 'Product not found'], 404);
@@ -208,8 +211,4 @@ class ProductController extends Controller
          return response()->json(['message' => 'Product not found']);
     }
 
-    // public function addProductToFavorites(Request $request, $id)
-    // {
-
-    // }
 }

@@ -78,7 +78,6 @@ class CategoryController extends Controller
         $products = Category::find($id)->products()->get();
 
         return new CategoryResource($category);
-        //return response()->json(['products' => $products], 200);
     }
 
   

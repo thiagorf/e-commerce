@@ -80,13 +80,11 @@ class ApiController extends Controller
 
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
-            //$request->session()->invalidate();
             $token = $request->user()->createToken('teste')->plainTextToken;
             return response()->json(['message'=> 'user login', 'token' => $token]);
         }
 
         return response()->json(['message' => 'Credentials denied']);
-
     }   
 
     public function leave(Request $request)
@@ -96,7 +94,6 @@ class ApiController extends Controller
             
             Auth::guard('web')->logout();
             $request->session()->invalidate();
-            //$request->session()->regenerateToken();
         }
         
         
@@ -106,14 +103,10 @@ class ApiController extends Controller
     public function logout(Request $request)
     {
         if(Auth::check()){
-            //$request->user()->currentAccessToken()->delete();
             $request->user()->tokens()->delete();
             Auth::guard('web')->logout();
-            //$request->session()->invalidate();
-            //$request->session()->regenerateToken();
             return response()->json(['message' => 'Done'], 200);
         }
-        
         
         return response()->json(['message' => 'not logged'], 200);
     }

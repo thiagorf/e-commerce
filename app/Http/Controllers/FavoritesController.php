@@ -37,18 +37,14 @@ class FavoritesController extends Controller
 
     public function deleteProductsInFavorite(Request $request, $id)
     {
-        
         $favorite = Favorite::find($id);
         $favorite->products()->detach($request->id);
         
         return response()->json(['message' => $request->id], 200);
-        //return response()->json(['message' => 'Products removed from favorites'], 200);
         
     }
     public function teste(Request $request, $id)
     {
-        //return response()->json(['message' => $request->id]);
-        
         $favorite = Favorite::find($id);
         $favorite->products()->detach($request->id);
         
