@@ -13074,10 +13074,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'cart',
@@ -13259,19 +13255,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -13404,33 +13387,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Content',
@@ -13495,11 +13451,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (favoriteProducts) {
         for (var i = 0; i < favoriteProducts.length; i++) {
           if (id == favoriteProducts[i].id) {
-            return true; //return 'Yes'
+            return true;
           }
         }
 
-        return false; //return 'No';
+        return false;
       }
     },
     getProducts: function getProducts() {
@@ -13518,11 +13474,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _this3.checkFavorite();
 
               case 4:
+                console.log('aq');
                 axios.get('/api/products').then(function (response) {
                   _this3.products = response.data.products;
                 });
 
-              case 5:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -13550,7 +13507,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this4.message = response.data.message;
 
         _this4.checkFavorite(); // muitas requisições feitas para atualizar o botao
-        //this.$i()
 
       });
     },
@@ -13563,8 +13519,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }).then(function (response) {
         _this5.message = response.data.message;
 
-        _this5.checkFavorite(); //this.$store.dispatch('SET_FAVORITE')
-
+        _this5.checkFavorite();
       });
     },
     changeMessage: function changeMessage() {
@@ -13695,13 +13650,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       this.formData.id = id;
-      var data = this.formData; //const id = this.login.data.id
-      // retornar somemte um boolean não uma string
+      var data = this.formData;
 
       if (!this.login.data) {
         this.message = 'Você precisa estar logado para usar o carrinho';
       } else {
-        //this.$store.dispatch('userLogin')
         axios.post("/api/carts/".concat(this.login.data.id, "/products"), data).then(function (response) {
           _this.message = response.data.message;
         });
@@ -13969,7 +13922,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     favoriteProducts: _store_modules_mutations_type__WEBPACK_IMPORTED_MODULE_1__.SET_FAVORITE_PRODUCT,
     checkRole: _store_modules_mutations_type__WEBPACK_IMPORTED_MODULE_1__.SET_ROLE
   })), {}, {
-    //old name mudar
     login: function login() {
       var _this = this;
 
@@ -14006,13 +13958,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 5:
                 _this2.$router.push('/');
-                /*axios.get('/api/logout').then(res => {
-                    console.log(res)
-                    this.$router.push('/');
-                }).catch(err => {
-                    console.log(err)
-                })*/
-
 
               case 6:
               case "end":
@@ -14046,11 +13991,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//import ShowProduct from './products/ShowProducts.vue'
-//import SearchFilter from './SearchFilter.vue'
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -14072,13 +14012,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     notifyComponent: function notifyComponent(value) {
-      //this.$emit('changeProducts', value)
       this.sortData = value;
     }
   },
   components: {
-    //'ShowProduct': ShowProduct,
-    //SearchFilter,
     ProductFilter: _ProductFilter_vue__WEBPACK_IMPORTED_MODULE_1__.default,
     Content: _Content_vue__WEBPACK_IMPORTED_MODULE_0__.default
   }
@@ -14464,11 +14401,6 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.getCategories();
       });
-      /*this.formData.tag = e.target.value
-      const data = this.formData
-        axios.put(`/api/categories/${id}`, data)
-          .then(response => {
-          })*/
     },
     editModal: function editModal(id) {
       var _this2 = this;
@@ -14478,7 +14410,6 @@ __webpack_require__.r(__webpack_exports__);
         _this2.showEditModal = true;
       });
     },
-    // Pensar na paginação de cada dashboard
     showModal: function showModal(id, tagName) {
       this.deletTag.form = true;
       this.deletTag.tagId = id;
@@ -14674,6 +14605,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -14684,6 +14618,7 @@ __webpack_require__.r(__webpack_exports__);
       categories: null,
       modal: false,
       modalProduct: null,
+      fileData: null,
       tags: []
     };
   },
@@ -14693,9 +14628,13 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    takeFile: function takeFile(event) {
+      this.fileData = event.target.files[0];
+    },
     showModal: function showModal(id) {
       var _this = this;
 
+      this.tags = [];
       axios.get("/api/products/".concat(id)).then(function (response) {
         _this.modalProduct = response.data.product;
         var ids = response.data.product.categories;
@@ -14710,15 +14649,26 @@ __webpack_require__.r(__webpack_exports__);
     updateProduct: function updateProduct(id) {
       var _this2 = this;
 
-      var name = this.modalProduct.name;
-      var description = this.modalProduct.description;
-      var price = this.modalProduct.price;
-      axios.put("/api/products/".concat(id), {
-        name: name,
-        description: description,
-        price: price,
-        tags: this.tags
-      }).then(function (response) {
+      var data = new FormData();
+      console.log(this.modalProduct);
+      data.append("name", this.modalProduct.name);
+      data.append("description", this.modalProduct.description);
+      data.append("price", this.modalProduct.price);
+      this.tags.forEach(function (element) {
+        data.append("tags[]", element);
+      });
+
+      if (this.fileData) {
+        data.append("productImage", this.fileData);
+      }
+
+      data.append("_method", "PUT");
+      axios.post("/api/products/".concat(id), data, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      }).then(function (_) {
+        _this2.tags = [];
         _this2.modal = false;
 
         _this2.getProducts();
@@ -14876,7 +14826,8 @@ __webpack_require__.r(__webpack_exports__);
         name: '',
         description: '',
         price: '',
-        checkData: []
+        tags: [],
+        productImage: null
       },
       categories: null
     };
@@ -14887,21 +14838,33 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    fileStore: function fileStore(event) {
+      this.formData.productImage = event.target.files[0];
+    },
     submitProduct: function submitProduct() {
-      var _this = this;
-
-      axios.post('api/products', this.formData).then(function (response) {
-        console.log(response.data.message);
-
-        _this.$router.push('/products');
+      var data = new FormData();
+      data.append("name", this.formData.name);
+      data.append("description", this.formData.description);
+      data.append("price", this.formData.price);
+      this.formData.tags.forEach(function (element) {
+        data.append("tags[]", element);
+      });
+      data.append("productImage", this.formData.productImage);
+      console.log(data);
+      axios.post('/api/products', data, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      }).then(function (response) {
+        console.log(response.data.message); //this.$router.push('/products');
       });
     }
   },
   beforeCreate: function beforeCreate() {
-    var _this2 = this;
+    var _this = this;
 
     axios.get('/api/categories').then(function (response) {
-      _this2.categories = response.data.categories;
+      _this.categories = response.data.categories;
     });
   }
 });
@@ -20005,7 +19968,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".content[data-v-7f690d44] {\n  display: grid;\n  max-width: 84.5vw;\n  width: 84.5%;\n  height: 100%;\n  margin: 0 auto;\n  grid-template-columns: repeat(auto-fit, minmax(147px, 1fr));\n  grid-auto-rows: minmax(200px, 1fr);\n  -moz-column-gap: 5px;\n       column-gap: 5px;\n  row-gap: 10px;\n  gap: 10px;\n  justify-content: center;\n}\n.card[data-v-7f690d44] {\n  margin-top: 10px;\n  /*width: 147px;\n  height: 200px;*/\n  border: 1px solid #da9595;\n  border-radius: 5px;\n}\n.img[data-v-7f690d44] {\n  position: relative;\n  width: 100%;\n  height: 64.35%;\n  border-bottom: 1px solid #da9595;\n}\n.card-info[data-v-7f690d44] {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 35.65%;\n  justify-content: space-between;\n}\n.card-info h6[data-v-7f690d44] {\n  font-size: 1.3125em;\n  font-weight: 700;\n}\n.card-info span[data-v-7f690d44] {\n  font-weight: 400;\n}\n.card-info button[data-v-7f690d44] {\n  font-weight: 800;\n  width: 100%;\n  background: #f8ceb9;\n  border-radius: 0 0 5px 5px;\n  padding: 2px;\n  margin-top: 3px;\n}\n.fav-wrapper[data-v-7f690d44] {\n  color: #da9595;\n}\n.fav-layer[data-v-7f690d44] {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  right: 5px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".content[data-v-7f690d44] {\n  display: grid;\n  max-width: 84.5vw;\n  width: 84.5%;\n  height: 100%;\n  margin: 0 auto;\n  grid-template-columns: repeat(auto-fit, minmax(147px, 1fr));\n  grid-auto-rows: minmax(200px, 1fr);\n  -moz-column-gap: 5px;\n       column-gap: 5px;\n  row-gap: 10px;\n  gap: 10px;\n  justify-content: center;\n}\n.card[data-v-7f690d44] {\n  margin-top: 10px;\n  /*width: 147px;\n  height: 200px;*/\n  border: 1px solid #da9595;\n  border-radius: 5px;\n}\n.img[data-v-7f690d44] {\n  position: relative;\n  width: 100%;\n  height: 64.35%;\n  border-bottom: 1px solid #da9595;\n}\n.img img[data-v-7f690d44] {\n  width: 100%;\n}\n.card-info[data-v-7f690d44] {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 35.65%;\n  justify-content: space-between;\n}\n.card-info h6[data-v-7f690d44] {\n  font-size: 1.3125em;\n  font-weight: 700;\n}\n.card-info span[data-v-7f690d44] {\n  font-weight: 400;\n}\n.card-info button[data-v-7f690d44] {\n  font-weight: 800;\n  width: 100%;\n  background: #f8ceb9;\n  border-radius: 0 0 5px 5px;\n  padding: 2px;\n  margin-top: 3px;\n}\n.fav-wrapper[data-v-7f690d44] {\n  color: #da9595;\n}\n.fav-layer[data-v-7f690d44] {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  right: 5px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20077,7 +20040,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".content[data-v-3982b107] {\n  display: grid;\n  max-width: 84.5vw;\n  width: 84.5%;\n  height: 100%;\n  margin: 0 auto;\n  grid-template-columns: repeat(auto-fit, minmax(147px, 1fr));\n  grid-auto-rows: minmax(200px, 1fr);\n  -moz-column-gap: 5px;\n       column-gap: 5px;\n  row-gap: 10px;\n  gap: 10px;\n  justify-content: center;\n}\n.card[data-v-3982b107] {\n  margin-top: 10px;\n  /*width: 147px;\n  height: 200px;*/\n  border: 1px solid #da9595;\n  border-radius: 5px;\n}\n.img[data-v-3982b107] {\n  position: relative;\n  width: 100%;\n  height: 64.35%;\n  border-bottom: 1px solid #da9595;\n}\n.card-info[data-v-3982b107] {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 35.65%;\n  justify-content: space-between;\n}\n.card-info h6[data-v-3982b107] {\n  font-size: 1.3125em;\n  font-weight: 700;\n}\n.card-info span[data-v-3982b107] {\n  font-weight: 400;\n}\n.card-info button[data-v-3982b107] {\n  font-weight: 800;\n  width: 100%;\n  background: #f8ceb9;\n  border-radius: 0 0 5px 5px;\n  padding: 2px;\n  margin-top: 3px;\n}\n.fav-wrapper[data-v-3982b107] {\n  color: #da9595;\n}\np[data-v-3982b107] {\n  overflow-x: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".content[data-v-3982b107] {\n  display: grid;\n  max-width: 84.5vw;\n  width: 84.5%;\n  height: 100%;\n  margin: 0 auto;\n  grid-template-columns: repeat(auto-fit, minmax(147px, 1fr));\n  grid-auto-rows: minmax(200px, 1fr);\n  -moz-column-gap: 5px;\n       column-gap: 5px;\n  row-gap: 10px;\n  gap: 10px;\n  justify-content: center;\n}\n.card[data-v-3982b107] {\n  margin-top: 10px;\n  /*width: 147px;\n  height: 200px;*/\n  border: 1px solid #da9595;\n  border-radius: 5px;\n}\n.img[data-v-3982b107] {\n  position: relative;\n  width: 100%;\n  height: 64.35%;\n  border-bottom: 1px solid #da9595;\n}\n.img img[data-v-3982b107] {\n  width: 100%;\n}\n.card-info[data-v-3982b107] {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 35.65%;\n  justify-content: space-between;\n}\n.card-info h6[data-v-3982b107] {\n  font-size: 1.3125em;\n  font-weight: 700;\n}\n.card-info span[data-v-3982b107] {\n  font-weight: 400;\n}\n.card-info button[data-v-3982b107] {\n  font-weight: 800;\n  width: 100%;\n  background: #f8ceb9;\n  border-radius: 0 0 5px 5px;\n  padding: 2px;\n  margin-top: 3px;\n}\n.fav-wrapper[data-v-3982b107] {\n  color: #da9595;\n}\np[data-v-3982b107] {\n  overflow-x: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20245,7 +20208,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".table-wrapper[data-v-e8a2c9fc] {\n  width: 84.5%;\n  margin: 0 auto;\n}\ntable[data-v-e8a2c9fc] {\n  table-layout: fixed;\n  display: block;\n  overflow-x: auto;\n  white-space: nowrap;\n  border: 1px solid #da9595;\n  border-collapse: collapse;\n  width: 100%;\n  border-radius: 5px;\n}\ntable tr[data-v-e8a2c9fc], table th[data-v-e8a2c9fc], table td[data-v-e8a2c9fc] {\n  padding: 5px;\n  border: 1px solid #da9595;\n}\ntable tbody tr[data-v-e8a2c9fc]:nth-child(odd) {\n  background: #f8ceb9;\n}\ntable input[data-v-e8a2c9fc] {\n  border: 0;\n  background: inherit;\n}\nthead[data-v-e8a2c9fc], tr[data-v-e8a2c9fc], tbody[data-v-e8a2c9fc] {\n  width: 100%;\n}\ntable[data-v-e8a2c9fc] {\n  display: table;\n}\ntable input[data-v-e8a2c9fc] {\n  width: 100%;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".table-wrapper[data-v-e8a2c9fc] {\n  width: 84.5%;\n  margin: 0 auto;\n}\ntable[data-v-e8a2c9fc] {\n  table-layout: fixed;\n  display: block;\n  overflow-x: auto;\n  white-space: nowrap;\n  border: 1px solid #da9595;\n  border-collapse: collapse;\n  width: 100%;\n  border-radius: 5px;\n}\ntable tr[data-v-e8a2c9fc], table th[data-v-e8a2c9fc], table td[data-v-e8a2c9fc] {\n  padding: 5px;\n  border: 1px solid #da9595;\n}\ntable tbody tr[data-v-e8a2c9fc]:nth-child(odd) {\n  background: #f8ceb9;\n}\ntable input[data-v-e8a2c9fc] {\n  border: 0;\n  background: inherit;\n}\ntable td img[data-v-e8a2c9fc] {\n  width: 100%;\n}\nthead[data-v-e8a2c9fc], tr[data-v-e8a2c9fc], tbody[data-v-e8a2c9fc] {\n  width: 100%;\n}\ntable[data-v-e8a2c9fc] {\n  display: table;\n}\ntable input[data-v-e8a2c9fc] {\n  width: 100%;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20269,7 +20232,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".table-wrapper[data-v-236b344e] {\n  width: 84.5%;\n  margin: 0 auto;\n}\ntable[data-v-236b344e] {\n  table-layout: fixed;\n  display: block;\n  overflow-x: auto;\n  white-space: nowrap;\n  border: 1px solid #da9595;\n  border-collapse: collapse;\n  width: 100%;\n  border-radius: 5px;\n}\ntable tr[data-v-236b344e], table th[data-v-236b344e], table td[data-v-236b344e] {\n  padding: 5px;\n  border: 1px solid #da9595;\n}\ntable tbody tr[data-v-236b344e]:nth-child(odd) {\n  background: #f8ceb9;\n}\ntable input[data-v-236b344e] {\n  border: 0;\n  background: inherit;\n}\nthead[data-v-236b344e], tr[data-v-236b344e], tbody[data-v-236b344e] {\n  width: 100%;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".table-wrapper[data-v-236b344e] {\n  width: 84.5%;\n  margin: 0 auto;\n}\ntable[data-v-236b344e] {\n  table-layout: fixed;\n  display: block;\n  overflow-x: auto;\n  white-space: nowrap;\n  border: 1px solid #da9595;\n  border-collapse: collapse;\n  width: 100%;\n  border-radius: 5px;\n}\ntable tr[data-v-236b344e], table th[data-v-236b344e], table td[data-v-236b344e] {\n  padding: 5px;\n  border: 1px solid #da9595;\n}\ntable tbody tr[data-v-236b344e]:nth-child(odd) {\n  background: #f8ceb9;\n}\ntable input[data-v-236b344e] {\n  border: 0;\n  background: inherit;\n}\ntable td img[data-v-236b344e] {\n  width: 100%;\n}\nthead[data-v-236b344e], tr[data-v-236b344e], tbody[data-v-236b344e] {\n  width: 100%;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20293,7 +20256,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".table-wrapper[data-v-c548bd8c] {\n  width: 84.5%;\n  margin: 0 auto;\n}\ntable[data-v-c548bd8c] {\n  table-layout: fixed;\n  display: block;\n  overflow-x: auto;\n  white-space: nowrap;\n  border: 1px solid #da9595;\n  border-collapse: collapse;\n  width: 100%;\n  border-radius: 5px;\n}\ntable tr[data-v-c548bd8c], table th[data-v-c548bd8c], table td[data-v-c548bd8c] {\n  padding: 5px;\n  border: 1px solid #da9595;\n}\ntable tbody tr[data-v-c548bd8c]:nth-child(odd) {\n  background: #f8ceb9;\n}\ntable input[data-v-c548bd8c] {\n  border: 0;\n  background: inherit;\n}\nthead[data-v-c548bd8c], tr[data-v-c548bd8c], tbody[data-v-c548bd8c] {\n  width: 100%;\n}\n.wrapper[data-v-c548bd8c] {\n  width: 84.5%;\n  margin: 0 auto;\n}\n.wrapper form[data-v-c548bd8c] {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  border: 1px solid #da9595;\n  margin-bottom: 3px;\n  padding-top: 3px;\n}\n.wrapper .categories-wrapper[data-v-c548bd8c] {\n  align-self: center;\n  width: 95%;\n}\n.wrapper button[data-v-c548bd8c] {\n  background: #f8ceb9;\n  margin-top: 5px;\n  border-top: 1px solid #da9595;\n}\n.wrapper input[type=text][data-v-c548bd8c] {\n  align-self: center;\n  border: 1px solid #da9595;\n  margin: 2px;\n  width: 95%;\n}\n.wrapper input[type=checkbox][data-v-c548bd8c] {\n  display: none;\n}\n.wrapper input[type=checkbox] + label[data-v-c548bd8c]::before {\n  content: \"\";\n  display: inline-block;\n  width: 13px;\n  height: 13px;\n  margin-right: 3px;\n  border: 1px solid #da9595;\n  vertical-align: middle;\n}\n.wrapper input[type=checkbox]:checked + label[data-v-c548bd8c]::before {\n  content: \"\";\n  display: inline-block;\n  width: 13px;\n  height: 13px;\n  margin-right: 3px;\n  border: 1px solid #da9595;\n  background: #e08c8c;\n  vertical-align: middle;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".table-wrapper[data-v-c548bd8c] {\n  width: 84.5%;\n  margin: 0 auto;\n}\ntable[data-v-c548bd8c] {\n  table-layout: fixed;\n  display: block;\n  overflow-x: auto;\n  white-space: nowrap;\n  border: 1px solid #da9595;\n  border-collapse: collapse;\n  width: 100%;\n  border-radius: 5px;\n}\ntable tr[data-v-c548bd8c], table th[data-v-c548bd8c], table td[data-v-c548bd8c] {\n  padding: 5px;\n  border: 1px solid #da9595;\n}\ntable tbody tr[data-v-c548bd8c]:nth-child(odd) {\n  background: #f8ceb9;\n}\ntable input[data-v-c548bd8c] {\n  border: 0;\n  background: inherit;\n}\ntable td img[data-v-c548bd8c] {\n  width: 100%;\n}\nthead[data-v-c548bd8c], tr[data-v-c548bd8c], tbody[data-v-c548bd8c] {\n  width: 100%;\n}\n.wrapper[data-v-c548bd8c] {\n  width: 84.5%;\n  margin: 0 auto;\n  /*input[type=\"file\"] {\n      display: none;\n  }\n\n  input[type=\"file\"] + label {\n      border: 1px solid black;\n      width: 95%;\n  }*/\n}\n.wrapper form[data-v-c548bd8c] {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  border: 1px solid #da9595;\n  margin-bottom: 3px;\n  padding-top: 3px;\n}\n.wrapper .categories-wrapper[data-v-c548bd8c] {\n  align-self: center;\n  width: 95%;\n}\n.wrapper button[data-v-c548bd8c] {\n  background: #f8ceb9;\n  margin-top: 5px;\n  border-top: 1px solid #da9595;\n}\n.wrapper input[type=text][data-v-c548bd8c] {\n  align-self: center;\n  border: 1px solid #da9595;\n  margin: 2px;\n  width: 95%;\n}\n.wrapper input[type=checkbox][data-v-c548bd8c] {\n  display: none;\n}\n.wrapper input[type=checkbox] + label[data-v-c548bd8c]::before {\n  content: \"\";\n  display: inline-block;\n  width: 13px;\n  height: 13px;\n  margin-right: 3px;\n  border: 1px solid #da9595;\n  vertical-align: middle;\n}\n.wrapper input[type=checkbox]:checked + label[data-v-c548bd8c]::before {\n  content: \"\";\n  display: inline-block;\n  width: 13px;\n  height: 13px;\n  margin-right: 3px;\n  border: 1px solid #da9595;\n  background: #e08c8c;\n  vertical-align: middle;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20317,7 +20280,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".table-wrapper[data-v-0238c39c] {\n  width: 84.5%;\n  margin: 0 auto;\n}\ntable[data-v-0238c39c] {\n  table-layout: fixed;\n  display: block;\n  overflow-x: auto;\n  white-space: nowrap;\n  border: 1px solid #da9595;\n  border-collapse: collapse;\n  width: 100%;\n  border-radius: 5px;\n}\ntable tr[data-v-0238c39c], table th[data-v-0238c39c], table td[data-v-0238c39c] {\n  padding: 5px;\n  border: 1px solid #da9595;\n}\ntable tbody tr[data-v-0238c39c]:nth-child(odd) {\n  background: #f8ceb9;\n}\ntable input[data-v-0238c39c] {\n  border: 0;\n  background: inherit;\n}\nthead[data-v-0238c39c], tr[data-v-0238c39c], tbody[data-v-0238c39c] {\n  width: 100%;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".table-wrapper[data-v-0238c39c] {\n  width: 84.5%;\n  margin: 0 auto;\n}\ntable[data-v-0238c39c] {\n  table-layout: fixed;\n  display: block;\n  overflow-x: auto;\n  white-space: nowrap;\n  border: 1px solid #da9595;\n  border-collapse: collapse;\n  width: 100%;\n  border-radius: 5px;\n}\ntable tr[data-v-0238c39c], table th[data-v-0238c39c], table td[data-v-0238c39c] {\n  padding: 5px;\n  border: 1px solid #da9595;\n}\ntable tbody tr[data-v-0238c39c]:nth-child(odd) {\n  background: #f8ceb9;\n}\ntable input[data-v-0238c39c] {\n  border: 0;\n  background: inherit;\n}\ntable td img[data-v-0238c39c] {\n  width: 100%;\n}\nthead[data-v-0238c39c], tr[data-v-0238c39c], tbody[data-v-0238c39c] {\n  width: 100%;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20341,7 +20304,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".wrapper[data-v-4775dcb0] {\n  width: 84.5%;\n  margin: 0 auto;\n}\n.wrapper form[data-v-4775dcb0] {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  border: 1px solid #da9595;\n  margin-bottom: 3px;\n  padding-top: 3px;\n}\n.wrapper .categories-wrapper[data-v-4775dcb0] {\n  align-self: center;\n  width: 95%;\n}\n.wrapper button[data-v-4775dcb0] {\n  background: #f8ceb9;\n  margin-top: 5px;\n  border-top: 1px solid #da9595;\n}\n.wrapper input[type=text][data-v-4775dcb0] {\n  align-self: center;\n  border: 1px solid #da9595;\n  margin: 2px;\n  width: 95%;\n}\n.wrapper input[type=checkbox][data-v-4775dcb0] {\n  display: none;\n}\n.wrapper input[type=checkbox] + label[data-v-4775dcb0]::before {\n  content: \"\";\n  display: inline-block;\n  width: 13px;\n  height: 13px;\n  margin-right: 3px;\n  border: 1px solid #da9595;\n  vertical-align: middle;\n}\n.wrapper input[type=checkbox]:checked + label[data-v-4775dcb0]::before {\n  content: \"\";\n  display: inline-block;\n  width: 13px;\n  height: 13px;\n  margin-right: 3px;\n  border: 1px solid #da9595;\n  background: #e08c8c;\n  vertical-align: middle;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".wrapper[data-v-4775dcb0] {\n  width: 84.5%;\n  margin: 0 auto;\n  /*input[type=\"file\"] {\n      display: none;\n  }\n\n  input[type=\"file\"] + label {\n      border: 1px solid black;\n      width: 95%;\n  }*/\n}\n.wrapper form[data-v-4775dcb0] {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  border: 1px solid #da9595;\n  margin-bottom: 3px;\n  padding-top: 3px;\n}\n.wrapper .categories-wrapper[data-v-4775dcb0] {\n  align-self: center;\n  width: 95%;\n}\n.wrapper button[data-v-4775dcb0] {\n  background: #f8ceb9;\n  margin-top: 5px;\n  border-top: 1px solid #da9595;\n}\n.wrapper input[type=text][data-v-4775dcb0] {\n  align-self: center;\n  border: 1px solid #da9595;\n  margin: 2px;\n  width: 95%;\n}\n.wrapper input[type=checkbox][data-v-4775dcb0] {\n  display: none;\n}\n.wrapper input[type=checkbox] + label[data-v-4775dcb0]::before {\n  content: \"\";\n  display: inline-block;\n  width: 13px;\n  height: 13px;\n  margin-right: 3px;\n  border: 1px solid #da9595;\n  vertical-align: middle;\n}\n.wrapper input[type=checkbox]:checked + label[data-v-4775dcb0]::before {\n  content: \"\";\n  display: inline-block;\n  width: 13px;\n  height: 13px;\n  margin-right: 3px;\n  border: 1px solid #da9595;\n  background: #e08c8c;\n  vertical-align: middle;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -54022,9 +53985,13 @@ var render = function() {
                   _vm._l(_vm.products, function(product) {
                     return _c("div", { key: product.id, staticClass: "card" }, [
                       _c("div", { staticClass: "img" }, [
-                        _vm._v(
-                          "\n                    Conteudo\n                    "
-                        ),
+                        _c("img", {
+                          attrs: {
+                            src: "/storage/" + product.productImage,
+                            alt: "Imagem do produto"
+                          }
+                        }),
+                        _vm._v(" "),
                         _vm.favorite.data
                           ? _c("div", { staticClass: "fav-layer" }, [
                               _vm.showFavorite(product.id)
@@ -55120,6 +55087,7 @@ var render = function() {
             ? _c("div", { staticClass: "wrapper" }, [
                 _c(
                   "form",
+                  { attrs: { enctype: "multipart/form-data" } },
                   [
                     _c("input", {
                       directives: [
@@ -55192,6 +55160,15 @@ var render = function() {
                             "price",
                             $event.target.value
                           )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      attrs: { type: "file", name: "productImage" },
+                      on: {
+                        change: function($event) {
+                          return _vm.takeFile($event)
                         }
                       }
                     }),
@@ -55304,6 +55281,15 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _c("td", [
+                      _c("img", {
+                        attrs: {
+                          src: "/storage/" + product.productImage,
+                          alt: ""
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
                       _c(
                         "select",
                         _vm._l(product.categories, function(category, index) {
@@ -55371,6 +55357,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Descrição")]),
         _vm._v(" "),
         _c("th", [_vm._v("Preço")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Imagem")]),
         _vm._v(" "),
         _c("th", [_vm._v("Categorias")]),
         _vm._v(" "),
@@ -55492,7 +55480,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "wrapper" }, [
-    _c("form", [
+    _c("form", { attrs: { enctype: "multipart/form-data" } }, [
       _c("input", {
         directives: [
           {
@@ -55570,8 +55558,8 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.formData.checkData,
-                        expression: "formData.checkData"
+                        value: _vm.formData.tags,
+                        expression: "formData.tags"
                       }
                     ],
                     attrs: {
@@ -55581,13 +55569,13 @@ var render = function() {
                     },
                     domProps: {
                       value: category.id,
-                      checked: Array.isArray(_vm.formData.checkData)
-                        ? _vm._i(_vm.formData.checkData, category.id) > -1
-                        : _vm.formData.checkData
+                      checked: Array.isArray(_vm.formData.tags)
+                        ? _vm._i(_vm.formData.tags, category.id) > -1
+                        : _vm.formData.tags
                     },
                     on: {
                       change: function($event) {
-                        var $$a = _vm.formData.checkData,
+                        var $$a = _vm.formData.tags,
                           $$el = $event.target,
                           $$c = $$el.checked ? true : false
                         if (Array.isArray($$a)) {
@@ -55595,21 +55583,17 @@ var render = function() {
                             $$i = _vm._i($$a, $$v)
                           if ($$el.checked) {
                             $$i < 0 &&
-                              _vm.$set(
-                                _vm.formData,
-                                "checkData",
-                                $$a.concat([$$v])
-                              )
+                              _vm.$set(_vm.formData, "tags", $$a.concat([$$v]))
                           } else {
                             $$i > -1 &&
                               _vm.$set(
                                 _vm.formData,
-                                "checkData",
+                                "tags",
                                 $$a.slice(0, $$i).concat($$a.slice($$i + 1))
                               )
                           }
                         } else {
-                          _vm.$set(_vm.formData, "checkData", $$c)
+                          _vm.$set(_vm.formData, "tags", $$c)
                         }
                       }
                     }
@@ -55624,6 +55608,15 @@ var render = function() {
             2
           )
         : _vm._e(),
+      _vm._v(" "),
+      _c("input", {
+        attrs: { type: "file", name: "productImage" },
+        on: {
+          change: function($event) {
+            return _vm.fileStore($event)
+          }
+        }
+      }),
       _vm._v(" "),
       _c(
         "button",
