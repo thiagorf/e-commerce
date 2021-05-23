@@ -2,10 +2,11 @@
     <div>
         <div v-if="products">
             <div v-if="modal" class="wrapper">
-                <form>
+                <form enctype="multipart/form-data">
                     <input type="text" v-model="modalProduct.name">
                     <input type="text" v-model="modalProduct.description">
                     <input type="text" v-model="modalProduct.price">
+                    <input type="file" name="productImage" @change="takeFile($event)">
                     <div v-for="(category, index) in categories" :key="index" class="categories-wrapper">
                         <input type="checkbox" :id="category.tag" :value="category.id" v-model="tags">
                         <label 
@@ -29,6 +30,7 @@
                             <th>Nome</th>
                             <th>Descrição</th>
                             <th>Preço</th>
+                            <th>Imagem</th>
                             <th>Categorias</th>
                             <th>Editar</th>
                             <th>Excluir</th>
@@ -40,6 +42,7 @@
                             <td v-text="product.name"></td>
                             <td v-text="product.description"></td>
                             <td v-text="product.price"></td>
+                            <td><img :src="`/storage/${product.productImage}`" alt=""></td>
                             <td>
                                 <select>
                                     <option 
@@ -74,6 +77,7 @@ export default {
             categories: null,
             modal: false,
             modalProduct: null,
+            fileData: null,
             tags: []
         }
     },
@@ -83,7 +87,11 @@ export default {
         }
     },
     methods: {
+        takeFile(event) {
+            this.fileData = event.target.files[0]
+        },
         showModal(id) {
+            this.tags = []
             axios.get(`/api/products/${id}`)
                 .then(response => {
                     this.modalProduct = response.data.product
@@ -95,17 +103,26 @@ export default {
                 })
         },
         updateProduct(id) {
-            const name = this.modalProduct.name
-            const description = this.modalProduct.description
-            const price = this.modalProduct.price
-
-            axios.put(`/api/products/${id}`, {
-                name: name,
-                description: description,
-                price: price,
-                tags: this.tags
+            let data = new FormData()
+            console.log(this.modalProduct)
+            data.append("name", this.modalProduct.name)
+            data.append("description", this.modalProduct.description)
+            data.append("price", this.modalProduct.price)
+            this.tags.forEach(element => {
+                data.append("tags[]", element)
+            });
+            if(this.fileData) {
+                data.append("productImage", this.fileData)
+            }
+            data.append("_method", "PUT")
+            
+            axios.post(`/api/products/${id}`, data, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
             })
-            .then(response => {
+            .then(_=> {
+                this.tags = []
                 this.modal = false
                 this.getProducts()
             })

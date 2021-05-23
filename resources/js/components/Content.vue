@@ -5,7 +5,7 @@
             <div class="content" v-if="products">
                 <div class="card" v-for="product in products" :key="product.id">
                     <div class="img">
-                        Conteudo
+                        <img :src="`/storage/${product.productImage}`" alt="Imagem do produto">
                         <div class="fav-layer" v-if="favorite.data">
                             <button 
                                 v-if="showFavorite(product.id)" 
@@ -112,6 +112,7 @@ export default {
         async getProducts() {
             await this.$store.dispatch('SET_FAVORITE')
             await this.checkFavorite()
+            console.log('aq')
             axios.get('/api/products')
                 .then(response => {
                     this.products = response.data.products
