@@ -25,6 +25,7 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
+            'productImage' => $this->productImage,
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
             // 'tag' => new CategoriesCollection($this->categories)
         ];
