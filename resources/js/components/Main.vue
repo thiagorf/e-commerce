@@ -1,23 +1,32 @@
 <template>
-    <div class="container">
-        <ProductFilter @sortData="notifyComponent"/>
-        <Content :sort="sortData" />
+    <div>
+        <div class="container" v-show="loading">
+            <ProductFilter @sortData="notifyComponent"/>
+            <Content :sort="sortData" @loadingDone="showContent"/>
+        </div>
+        <div v-show="!loading">
+            <Spinner />
+        </div>
     </div>
 </template>
 <script>
 import Content from './Content.vue'
 import ProductFilter from './ProductFilter.vue'
-
+import Spinner from './Spinner'
 export default {
     name: 'Main',
     data() {
         return {
             sortData: null,
+            loading: false
         }
     },
     watch: {
         sortData() {
             return this.sortData.length
+        }, 
+        loading() {
+            return this.loading.length
         }
     },
     computed: {
@@ -29,10 +38,14 @@ export default {
         notifyComponent(value) {
             this.sortData = value
         },
+        showContent(value) {
+            this.loading = value
+        }
     },
    components: {
         ProductFilter,
-        Content
+        Content,
+        Spinner
     },
 }
 </script>

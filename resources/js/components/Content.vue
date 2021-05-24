@@ -116,6 +116,7 @@ export default {
             axios.get('/api/products')
                 .then(response => {
                     this.products = response.data.products
+                    this.$emit('loadingDone', true)
                 })
         },
         showMore(id) {

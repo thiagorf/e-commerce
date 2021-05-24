@@ -1,7 +1,15 @@
 <template>
     <div>
+        <div v-if="deleteModal">
+            <h6>Deseja excluir o produto?</h6>
+            <button @click="removeFromCart(deleteModal.productId)">Sim</button>
+            <button @click="deleteModal = false">Não</button>
+        </div>
         <div v-if="products">
-            <div class="select-products-container">
+            <div v-if="products.length < 1">
+                <p>Não existe produtos no carrinho</p>
+            </div>
+            <div v-else class="select-products-container">
                 <h1>Selecione os produtos</h1>
                 <input type="checkbox" id="all" @click="checkAll">
                 <label for="all">Selecione todos</label>
@@ -20,6 +28,7 @@
                     <p>
                         R${{product.price}}
                     </p>
+                    <font-awesome-icon :icon="['fas', 'trash']" @click="showModal(product.id)"/>
                 </div>
                 <p>
                     R$ {{totalValue}}
@@ -63,6 +72,10 @@ export default {
             products: null,
             formData: {
                 productId: [],
+            },
+            deleteModal: false,
+            productData: {
+                id: ''
             }
             /*
                 cardNumber: '',
@@ -151,6 +164,24 @@ export default {
             }else {
                 this.$router.push('/login')
             }
+        },
+        showModal(id) {
+            console.log(id)
+            this.deleteModal = true
+            this.productData.id = id
+        },
+        removeFromCart(id) {
+            const cartId = this.login.data.id
+            //this.productData.id = id
+            console.log(id)
+            axios.delete(`/api/carts/${cartId}/products`, {
+                data: this.productData
+            })
+            .then(response => {
+                console.log(response.data.message)
+                this.deleteModal= false
+                this.showCart()
+            })
         }
     },
     created() {
