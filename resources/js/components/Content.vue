@@ -1,7 +1,6 @@
 <template>
-    <div>
-        <Message :testMessage.sync="message" @notifyComponent="changeMessage"/>
-        <div v-if="products">
+        <!-- <Message :testMessage.sync="message" @notifyComponent="changeMessage"/>
+        -->
             <div class="content" v-if="products">
                 <div class="card" v-for="product in products" :key="product.id">
                     <div class="img">
@@ -34,12 +33,6 @@
                     </div>
                 </div>
             </div>
-
-        </div>
-    <div v-else>
-        Carregando...
-    </div>
-    </div>
 </template>
 <script>
 import Message from './Message.vue'

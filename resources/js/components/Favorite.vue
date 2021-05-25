@@ -3,14 +3,13 @@
         <div v-if="products" class="content">
             <div class="card" v-for="product in products" :key="product.id">
                 <div class="img">
-                    CONTEUDO
+                    <img :src="`/storage/${product.productImage}`" alt="imagem do produto">
                     <div class="fav-layer" @click="removeFromFavorites(product.id)">
                         <font-awesome-icon :icon="['fas', 'heart']" class="fav-wrapper"/>
                     </div>
                 </div>
                 <div class=card-info>
                     <h6 v-text="product.name"></h6>
-                    <p v-text="product.description"></p>
                     <span>
                         R${{product.price}},00
                     </span>
@@ -88,9 +87,16 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import './../../sass/grid';
-p {
+/*p {
     overflow-x: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+*/
+.fav-layer {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    right: 5px;
 }
 </style>

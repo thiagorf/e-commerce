@@ -50,8 +50,20 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
- 
+.container {
+    display: flex;
+    flex-direction: column;
+    
+} 
 h1 {
     font-size: 5em;
+}
+@media screen and (min-width: 1200px) {
+    .container {
+        flex-direction: row;
+        width: 84.5%;
+        justify-content: space-between;
+        margin: 0 auto;
+    }
 }
 </style>

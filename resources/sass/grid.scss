@@ -33,8 +33,10 @@
     //height: 130px;
     height: 64.35%;
     border-bottom: 1px solid $border-color;
+    border-top: 1px sollid $border-color;
     img {
         width: 100%;
+        height: 100%;
     }
 }
 
@@ -43,24 +45,43 @@
     flex-direction: column;
     width: 100%;
     height: 35.65%;
-    justify-content: space-between;
+    justify-content: flex-start;
     h6 {
         //font-size: 21px;
-        font-size: 1.3125em;
+        font-size: 1.5em;
         font-weight: 700;
     }
     span {
         font-weight: 400;
+        font-size: .95em;
     }
     button {
-        font-weight: 800;
+        //font-weight: 800;
+        font-weight: 900;
+        font-size: .85em;
+        letter-spacing: -.5px;
+        word-spacing: 1.5px;
         width: 100%;
         background: #f8ceb9;
         border-radius: 0 0 5px 5px;
-        padding: 2px;
-        margin-top: 3px;
+        padding-top: 4px;
+        margin: auto;
+        margin-bottom: 0;
     }
 }
 .fav-wrapper {
     color: $border-color;
+    font-size: 1.3em;
+}
+
+@media screen and (min-width: 1200px) {
+    .content {
+    //294
+    //260 testar com filtro de search ao lado
+        width: 70%;
+        row-gap: 3px;
+        margin: 0;
+        //grid-template-columns: repeat(3, minmax(260px, 1fr));
+        grid-template-columns: repeat(3, minmax(200px, 1fr));
+    }
 }

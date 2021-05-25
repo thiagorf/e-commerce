@@ -200,6 +200,7 @@ export default {
     flex-direction: column;
     padding: 4px 4px 4px 0;
     width: 84.5%;
+    max-width: 336px;
     margin: 0 auto;
     button {
         align-self: flex-end;
@@ -214,6 +215,11 @@ export default {
     justify-content: space-between;
     p {
         margin-left: 12px;
+    }
+}
+@media screen and (min-width: 767px) {
+    .select-products-container {
+        width: 84.5%;
     }
 }
 </style>

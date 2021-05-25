@@ -1,6 +1,8 @@
 
 @import './../../sass/_variables';
 
+
+
 * {
     margin: 0;
     padding: 0;
@@ -33,13 +35,21 @@ button {
     background: none;
 }
 
+/*@media screen and (min-width: 360px) and (max-width: 1199px){
+    body {
+        font-size: calc(14px + (16 - 14) * ((100vw - 360px) / (1440 - 360)));
+    }
+}*/
 @media screen and (min-width: 360px){
     body {
         font-size: calc(14px + (16 - 14) * ((100vw - 360px) / (1440 - 360)));
     }
 }
-@media screen and (min-width: 1440px) {
+
+/*@media screen and (min-width: 1200px) {
     body {
         font-size: 16px;
+        //font-size: 18px;
     }
-}
+}*/
+// mobile 360-767 tablet 768-1199 desktop 1200

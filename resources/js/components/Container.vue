@@ -3,22 +3,23 @@
         <div class="nav-bar">
             <div class="links">
                 <router-link to="/">Home</router-link>
-
-                <router-link to="/cart"><font-awesome-icon :icon="['fas', 'shopping-cart']" /></router-link>
-                <router-link to="/favorite"><font-awesome-icon :icon="['fas', 'heart']" /></router-link>
-                    <button 
-                        v-if="isLogged.data" 
-                        @click="profileModal = !profileModal" 
-                        ref="dropdown"
-                        :class="{dropdown: profileModal}"
-                    >
-                        <font-awesome-icon :icon="['fas', 'user']" />
-                    </button>
-                        <div class="popUp"  v-if="profileModal">
-                            <router-link v-if="role" to="/dashboard">Dashboard</router-link>
-                            <button @click="logout">Sair</button>
-                        </div>
-                <router-link v-if="!isLogged.data" to="/login">Login</router-link>
+                <div class="main-nav-content">
+                    <router-link to="/cart"><font-awesome-icon :icon="['fas', 'shopping-cart']" /></router-link>
+                    <router-link to="/favorite"><font-awesome-icon :icon="['fas', 'heart']" /></router-link>
+                        <button 
+                            v-if="isLogged.data" 
+                            @click="profileModal = !profileModal" 
+                            ref="dropdown"
+                            :class="{dropdown: profileModal}"
+                        >
+                            <font-awesome-icon :icon="['fas', 'user']" />
+                        </button>
+                            <div class="popUp"  v-if="profileModal">
+                                <router-link v-if="role" to="/dashboard">Dashboard</router-link>
+                                <button @click="logout">Sair</button>
+                            </div>
+                    <router-link v-if="!isLogged.data" to="/login">Login</router-link>
+                </div>
             </div>
         </div>
             <router-view></router-view>
@@ -116,6 +117,14 @@ export default {
     .links a.router-link-exact-active:last-child {
         background: rgb(218, 149, 149);
         border-top-right-radius: 3px;
+    }
+}
+.main-nav-content {
+    display: flex;
+    justify-content: space-between;
+    width: fit-content;
+    & * {
+        margin-left: 3px;
     }
 }
 

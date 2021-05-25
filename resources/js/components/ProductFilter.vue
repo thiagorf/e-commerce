@@ -1,5 +1,4 @@
 <template>
-   <div>
        <div v-if="categories" class="sort-content">
            <div class="sort-search">
                 <input type="text" v-model="formData.sort" placeholder="Procure algo...">
@@ -20,10 +19,6 @@
                 </div>
             </div>
        </div>
-       <div v-else>
-           Carregando...
-       </div>
-   </div> 
 </template>
 <script>
 export default {
@@ -100,6 +95,10 @@ export default {
 <style lang="scss" scoped>
 
 .sort-content {
+    //display: flex;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    width: 84.5%;
     .sort-search button {
         align-self: flex-end;
         font-weight: 800;
@@ -114,14 +113,6 @@ export default {
         border-right: 1px solid rgb(218, 149, 149);
         border-radius: 5px 0 0 5px;
     }
-    display: flex;
-    margin: 0 auto;
-    //flex-direction: column;
-    flex-wrap: wrap;
-    width: 84.5%;
-    //height: 100px;
-    //border: 1px solid black;
-    //border: 1px solid rgb(218, 149, 149);
 }
 
 .tags-selection {
@@ -159,5 +150,16 @@ export default {
     display: flex;
     width: 100%;
     border-radius: 5px;
+}
+
+@media screen and (min-width: 1200px) {
+    .sort-content {
+        width: 100%;
+        margin: 0;
+    }
+    .sort-content {
+        width: 26%;
+        padding-top: 10px;
+    }
 }
 </style>

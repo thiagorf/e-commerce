@@ -1,7 +1,7 @@
 <template>
-    <div class="container">
-        <button @click="logout">Sair</button>
+    <div class="form-wrapper">
         <form action="" method="POST">
+            <h1>Fazer Login</h1>
             <div class="field">
                 <label for="email">E-mail</label>
                 <input type="email" v-model="formData.email" id="email">
