@@ -7,14 +7,14 @@
                         <th>Id</th>
                         <th>Usuario</th>
                         <th>Produtos</th>
-                        <th>Data de compra</th>
+                        <th>Data da compra</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(order, index) in orders" :key="index">
-                        <td v-text="order.id"></td>
-                        <td v-text="order.user.name"></td>
-                        <td>
+                        <td data-label="Id" v-text="order.id"></td>
+                        <td data-label="Usuario" v-text="order.user.name"></td>
+                        <td data-label="Produtos">
                             <select>
                                 <option 
                                     v-for="(product, index) in order.products"
@@ -25,7 +25,7 @@
                                 </option>
                             </select>
                         </td>
-                        <td v-text="dateConvert(order.created_at)"></td>
+                        <td data-label="Data da compra" v-text="dateConvert(order.created_at)"></td>
                     </tr>
                 </tbody>
             </table>
@@ -67,5 +67,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import './../../../sass/table';
+//@import './../../../sass/table';
+@import './../../../sass/table2';
 </style>

@@ -15,16 +15,19 @@
                 <table>
                     <thead>
                         <tr>
+                            <th>Id</th>
                             <th>Categoria</th>
-                            <th>Editar</th>
-                            <th>Excluir</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(category, index) in categories" :key="index">
-                            <td><input type="text" :value="category.tag"></td>
-                            <td><button @click="editModal(category.id)">Edit</button></td>
-                            <td><button @click="showModal(category.id, category.name)">Delete</button></td>
+                            <td data-label="Id" v-text="category.id"></td>
+                            <td data-label="Categoria" v-text="category.tag"></td>
+                            <td data-label="Ações">
+                                <font-awesome-icon @click="editModal(category.id)" :icon="['fas', 'pen']"/>
+                                <font-awesome-icon @click="showModal(category.id, category.name)" :icon="['fas', 'trash']"/>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -109,11 +112,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import './../../../sass/table';
-table {
+//@import './../../../sass/table';
+@import './../../../sass/table2';
+/*table {
     display: table;
     input {
         width: 100%;
     }
-}
+}*/
 </style>

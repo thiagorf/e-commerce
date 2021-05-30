@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="products">
-            <div v-if="modal" class="wrapper">
+            <div v-if="modal" class="table-wrapper">
                 <form enctype="multipart/form-data">
                     <input type="text" v-model="modalProduct.name">
                     <input type="text" v-model="modalProduct.description">
@@ -19,8 +19,13 @@
                 </form>
                 <button @click="modal = false">Cancelar</button>
             </div>
-            <div>
-                <CreateProduct />
+            <div class="createProduct">
+                <font-awesome-icon class="align-icon" @click="createModal = true" :icon="['fas', 'plus']"/>
+                <button v-if="createModal" @click="createModal = false">Cancelar</button>
+                <div class="blur-wrapper" v-if="createModal">
+                    <button @click="createModal = false"><font-awesome-icon :icon="['fas', 'times']" /></button>
+                </div>
+                <CreateProduct v-if="createModal"/>
             </div>
             <div class="table-wrapper">
                 <table>
@@ -32,18 +37,17 @@
                             <th>Preço</th>
                             <th>Imagem</th>
                             <th>Categorias</th>
-                            <th>Editar</th>
-                            <th>Excluir</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(product, index) in products" :key="index">
-                            <td v-text="product.id"></td>
-                            <td v-text="product.name"></td>
-                            <td v-text="product.description"></td>
-                            <td v-text="product.price"></td>
-                            <td><img :src="`/storage/${product.productImage}`" alt=""></td>
-                            <td>
+                            <td data-label="Id" v-text="product.id"></td>
+                            <td data-label="Nome" v-text="product.name"></td>
+                            <td data-label="Descrição" v-text="product.description"></td>
+                            <td data-label="Preço" v-text="product.price"></td>
+                            <td data-label="Imagem"><img :src="`/storage/${product.productImage}`" alt=""></td>
+                            <td data-label="Categorias">
                                 <select>
                                     <option 
                                         v-text="category.tag" 
@@ -54,8 +58,10 @@
                                     </option>
                                 </select>
                             </td>
-                            <td><button @click="showModal(product.id)"><font-awesome-icon :icon="['fas', 'pen']" /></button></td>
-                            <td><font-awesome-icon :icon="['fas', 'trash']"/></td>
+                            <td data-label="Ações">
+                                <font-awesome-icon @click="showModal(product.id)" :icon="['fas', 'pen']"/>
+                                <font-awesome-icon :icon="['fas', 'trash']"/>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -77,6 +83,7 @@ export default {
             categories: null,
             modal: false,
             modalProduct: null,
+            createModal: false,
             fileData: null,
             tags: []
         }
@@ -84,7 +91,16 @@ export default {
     watch: {
         products() {
             return this.products.length
-        }
+        },
+        /*createModal() {
+            let blur = document.querySelector('body')
+            if(this.createModal) {
+                blur.style.filter = 'blur(1px)'
+            }else {
+                blur.removeAttribute('style')
+            }
+            
+        }*/
     },
     methods: {
         takeFile(event) {
@@ -148,6 +164,19 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import './../../../sass/table';
+//@import './../../../sass/table';
+@import './../../../sass/table2';
 @import './../../../sass/productsForm';
+.createProduct {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 84.5%;
+    margin: 0 auto;
+    .align-icon {
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+}
+
 </style>
