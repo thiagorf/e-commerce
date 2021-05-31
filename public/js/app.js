@@ -15163,7 +15163,6 @@ var validationMixin = {
   data: function data() {
     var _this = this;
 
-    //var self = this;
     return {
       validate: {
         email: function email(value) {
@@ -15196,24 +15195,9 @@ var validationMixin = {
       var value = event.target.value;
       this.validate[inputName](value);
     },
-
-    /*
-    validateEmail(event) {
-        let value = event.target.value
-        this.validate.email(value)
-    },
-    validatePassword(event) {
-        let value = event.target.value
-        this.validate.password(value)
-    },
-    validateName(event) {
-        let value = event.target.value
-        this.validate.name(value)
-    },*/
     validateForm: function validateForm(value) {
       var form = {};
       var formIsValid = true;
-      console.log(value);
 
       for (var input in value) {
         var erros = this.validate[input](value[input]);
@@ -15222,13 +15206,10 @@ var validationMixin = {
           formIsValid = false;
         }
 
-        console.log(erros);
-        console.log(erros.length);
         form[input] = erros;
       }
 
       form.formIsValid = formIsValid;
-      console.log(form);
       return form;
     }
   }
