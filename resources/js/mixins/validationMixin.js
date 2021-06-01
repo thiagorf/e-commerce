@@ -1,6 +1,7 @@
 const EMAIL_REGEX = /^[a-z0-9]+@[a-z]+\.+[a-z]/i
 const PASSWORD_REGEX = /[a-z0-9]/i
 const NAME_REGEX = /[a-z0-9]/i
+
 const validationMixin = {
     data() {
         return {
