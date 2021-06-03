@@ -1,0 +1,25 @@
+
+.blur-wrapper {
+    position: fixed;
+    display: flex;
+    justify-content: flex-end;
+    z-index: 999;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    background: rgb(0,0,0,0.4);
+    backdrop-filter: blur(1px);
+    button {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        margin-right: 20px;
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        background: #dfdfdfc9;
+    }
+}

@@ -1,29 +1,7 @@
 
 @import './../../../sass/variables';
-.blur-wrapper {
-    position: fixed;
-    display: flex;
-    justify-content: flex-end;
-    z-index: 999;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    height: 100%;
-    width: 100%;
-    background: rgb(0,0,0,0.4);
-    backdrop-filter: blur(1px);
-    button {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px;
-        margin-right: 20px;
-        height: 30px;
-        width: 30px;
-        border-radius: 50%;
-        background: #dfdfdfc9;
-    }
-}
+@import './blur.scss';
+
 .wrapper {
     position: absolute;
     top: 20%;
@@ -66,7 +44,7 @@
     input[type="text"] {
         //align-self: center;
         border: 1px solid $border-color;
-        margin: 2px;
+        //margin: 2px;
         //width: 95%;
     }
     input[type="checkbox"] {
@@ -91,13 +69,31 @@
         background: rgb(224, 140, 140);
         vertical-align: middle;
     }
-    /*input[type="file"] {
+    textarea {
+        resize: none;
+    }
+    input[type="file"] {
         display: none;
     }
 
     input[type="file"] + label {
-        border: 1px solid black;
-        width: 95%;
-    }*/
+        display: inline-flex;
+        align-items: center;
+        padding: 3px 3px 3px 8px;
+        width: 60%;
+        height: 27px;
+        margin-left: 8px;
+        background: #f8ceb9;
+        border: 1px solid #da9595;
+        text-align: center;
+        font-weight: bold;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    input[type="file"] + label svg {
+        margin-right: 4px;
+    }
     
 }
