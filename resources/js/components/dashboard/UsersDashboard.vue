@@ -8,6 +8,7 @@
                         <th>Nome</th>
                         <th>Email</th>
                         <th>Criado em</th>
+                        <th>Nivel de acesso</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -16,6 +17,7 @@
                         <td data-label="Nome" v-text="user.name"></td>
                         <td data-label="Email" v-text="user.email"></td>
                         <td data-label="Criado em" v-text="dateConvert(user.created_at)"></td>
+                        <td data-label="Nivel de acesso" v-text="user.roles[0].role"></td>
                     </tr>
                 </tbody>
             </table>

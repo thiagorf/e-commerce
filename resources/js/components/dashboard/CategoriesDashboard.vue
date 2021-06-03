@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="categories">
-            <div v-if="deletTag.form">
+            <div v-if="deleteTag.form">
                 <h1>Tem certeza que quer excluir</h1>
                 <button @click="deleteCategory">Sim</button><button @click="cancelModal">Não</button>
             </div>
@@ -10,7 +10,17 @@
                 <button @click="updateCategory(editCategory.id)">Atualizar</button>
                 <button @click="showEditModal = false">Cancelar</button>
             </div>
-            <CreateCategories @updatedCategories="getCategories"/>
+            <div class="createCategory">
+                <button @click="createModal = true" class="align-icon">
+                    <font-awesome-icon :icon="['fas', 'plus']"/>
+                    Adicionar
+                </button>
+                
+                <div class="blur-wrapper" v-if="createModal">
+                    <button @click="createModal = false"><font-awesome-icon :icon="['fas', 'times']"/></button>
+                </div>
+                <CreateCategories @updatedCategories="getCategories" v-if="createModal"/>
+            </div>
             <div class="table-wrapper">
                 <table>
                     <thead>
@@ -50,13 +60,14 @@ export default {
             formData: {
                 tag: ''
             },
-            deletTag: {
+            deleteTag: {
                 form: false,
                 tagId: '',
                 tagName: ''
             },
             editCategory: null,
-            showEditModal: false
+            showEditModal: false,
+            createModal: false
         }
     },
     watch: {
@@ -80,21 +91,23 @@ export default {
                 })
         },
         showModal(id, tagName){
-            this.deletTag.form = true
-            this.deletTag.tagId = id
-            this.deletTag.tagName = tagName
+            this.deleteTag.form = true
+            this.deleteTag.tagId = id
+            this.deleteTag.tagName = tagName
         },
         deleteCategory() {
-            const id = this.deletTag.tagId
+            const id = this.deleteTag.tagId
             axios.delete(`/api/categories/${id}`)
                 .then(response => {
+                    this.deleteTag.form = false
                     this.getCategories()
                 })
         },
         cancelModal() {
-            this.deletTag.form = false
+            this.deleteTag.form = false
         },
         getCategories() {
+            this.createModal = false
             axios.get('/api/categories')
             .then(response => {
                 this.categories = response.data.categories
@@ -114,6 +127,18 @@ export default {
 <style lang="scss" scoped>
 //@import './../../../sass/table';
 @import './../../../sass/table2';
+@import './../../../sass/blur';
+.createCategory {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 84.5%;
+    margin: 0 auto;
+    .align-icon {
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+}
 /*table {
     display: table;
     input {

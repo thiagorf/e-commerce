@@ -1,19 +1,29 @@
 <template>
     <div class="wrapper">
         <div class="modal-content">
-            <form enctype="multipart/form-data">
+            <form enctype="multipart/form-data" @submit.prevent="checkForm">
                 <h1>Cadastro de Produto</h1>
                 <div class="field">
                     <label for="name">Nome</label>
-                    <input type="text" id="name" name="name" v-model="formData.name" placeholder="Nome">
+                    <p v-if="erros.name" v-text="erros.name"></p>
+                    <input type="text" id="name" name="name" v-model="formData.name" placeholder="Nome" @blur="verify($event, 'name')">
                 </div>
+                <!--
                 <div class="field">
-                    <label for="descricao">Descrção</label>
-                    <input type="text" id="descricao" name="description" v-model="formData.description" placeholder="Descrição">
+                    <label for="description">Descrição</label>
+                    <textarea name="description" id="description" cols="30" rows="10">
+
+                    </textarea>
+                </div> -->
+                <div class="field">
+                    <label for="descricao">Descrição</label>
+                    <p v-if="erros.description" v-text="erros.description"></p>
+                    <input type="text" id="descricao" name="description" v-model="formData.description" placeholder="Descrição" @blur="verify($event, 'description')">
                 </div>
                 <div class="field">
                     <label for="price">Preço</label>
-                    <input type="text" id="price" name="price" v-model="formData.price" placeholder="Preço">
+                    <p v-if="erros.price" v-text="erros.price"></p>
+                    <input type="text" id="price" name="price" v-model="formData.price" placeholder="Preço" @blur="verify($event, 'price')">
                 </div>
                 <div v-if="categories" class="categories-wrapper">
                     <h3>Escolha as categorias</h3>
@@ -30,16 +40,22 @@
                         <label :for="category.tag">{{category.tag}}</label>
                     </div>
                 </div>
-                <input type="file" name="productImage" @change="fileStore($event)">
-                <p v-if="imageName" v-text="imageName"></p>
-                <button type="submit" @click.prevent="submitProduct">Criar</button>
+                <input type="file" name="productImage" id="file" @change="fileStore($event)">
+                <label for="file">
+                    <font-awesome-icon :icon="['fas', 'file-upload']" />
+                    {{ imageName || 'Escolha um arquivo' }}
+                </label>
+                <button type="submit">Criar</button>
             </form>
         </div>
     </div>   
 </template>
 <script>
+import validationMixin from './../../mixins/validationMixin'
+
 export default {
     name: 'Createproducts',
+    mixins: [validationMixin],
     data() {
         return {
             formData: {
@@ -49,8 +65,14 @@ export default {
                 tags: [],
                 productImage: null
             },
+            erros: {
+                name: '',
+                description: '',
+                price: ''
+            },
             categories: null,
-            imageName: ''
+            imageName: '',
+            
         }
     }, 
     watch: {
@@ -66,6 +88,12 @@ export default {
             console.log(event)
             this.formData.productImage = event.target.files[0]
             this.imageName = event.target.files[0].name
+        },
+        checkForm() {
+            const isValid = this.validateForm(this.formData)
+            if(isValid.formIsValid) {
+                console.log('Axios...')
+            }
         },
         submitProduct () {
             let data = new FormData();

@@ -52,30 +52,8 @@ import validationMixin from './../mixins/validationMixin.js'
                 const isValid = this.validateForm(this.formData)
                 if(isValid.formIsValid) {
                     console.log('Axios call')
+                    this.login()
                 }
-                 
-                /*let inputs = event.target.elements
-                for (let i = 0; i < inputs.length; i++) {
-                    if(inputs[i].nodeName === "INPUT") {
-                        let inputName = inputs[i].name
-                        let inputValue = inputs[i].value
-                        this.validate[inputName](inputValue)
-                    }
-                }*/
-                //for x in y permite navegar nas propriedades dos objetos
-                
-               /* let inputs = this.formData
-                for (const key in inputs) {
-                    if(!inputs[key]) {
-                        console.log('foi')
-                        console.log(inputs[key])
-                        this.erros.push({message: 'Preencha os campos'})
-                        console.log(this.erros)
-                    }else {
-                        console.log('logou')
-                        //this.login()
-                    }
-                }*/
             },
             login() {
                 axios.get('/sanctum/csrf-cookie')
@@ -89,8 +67,6 @@ import validationMixin from './../mixins/validationMixin.js'
                                 .then(_ => {
                                 this.$router.push('/')
                             })
-
-                            
                         })
                     })
             },

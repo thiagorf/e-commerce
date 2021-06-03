@@ -20,12 +20,14 @@
                 <button @click="modal = false">Cancelar</button>
             </div>
             <div class="createProduct">
-                <font-awesome-icon class="align-icon" @click="createModal = true" :icon="['fas', 'plus']"/>
-                <button v-if="createModal" @click="createModal = false">Cancelar</button>
+            <button @click="createModal = true" class="align-icon">
+                <font-awesome-icon :icon="['fas', 'plus']"/>
+                Adicionar
+            </button>
                 <div class="blur-wrapper" v-if="createModal">
                     <button @click="createModal = false"><font-awesome-icon :icon="['fas', 'times']" /></button>
                 </div>
-                <CreateProduct v-if="createModal"/>
+                <CreateProduct v-show="createModal"/>
             </div>
             <div class="table-wrapper">
                 <table>
@@ -46,7 +48,11 @@
                             <td data-label="Nome" v-text="product.name"></td>
                             <td data-label="Descrição" v-text="product.description"></td>
                             <td data-label="Preço" v-text="product.price"></td>
-                            <td data-label="Imagem"><img :src="`/storage/${product.productImage}`" alt=""></td>
+                            <td data-label="Imagem">
+                                <div>
+                                    <img :src="`/storage/${product.productImage}`" alt="">
+                                </div>
+                            </td>
                             <td data-label="Categorias">
                                 <select>
                                     <option 
@@ -83,7 +89,7 @@ export default {
             categories: null,
             modal: false,
             modalProduct: null,
-            createModal: false,
+            createModal: true,
             fileData: null,
             tags: []
         }
