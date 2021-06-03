@@ -18,11 +18,11 @@ import Container from './components/Container.vue'
 
 //import { library } from '@fortawesome/vue-fontawesome-svg-core'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faHeart, faShoppingCart, faTrash, faPen, faSearch, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faHeart, faShoppingCart, faTrash, faPen, faSearch, faPlus, faTimes, faFileUpload } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faUser, faHeart, farHeart, faShoppingCart, faTrash, faPen, faSearch, faPlus, faTimes)
+library.add(faUser, faHeart, farHeart, faShoppingCart, faTrash, faPen, faSearch, faPlus, faTimes, faFileUpload)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 /**
