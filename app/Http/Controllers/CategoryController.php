@@ -9,10 +9,20 @@ use App\Http\Resources\CategoryCollection;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-       $categories =  Category::all();
-
+        if($request->has('tag')) {
+            $tag = $request->query('tag');
+            //$categories = Category::where('tag', $request->query('tag'))->get();
+            $categories = Category::whereExists(function ($query) use ($tag) {
+                $query->where('tag', $tag);
+            })
+            ->get();
+            //dd((!count($categories)));
+            return count($categories);
+            
+        }
+        $categories =  Category::all();
         return new CategoryCollection($categories);
         //return response()->json(['categories' => $categories],200);
     }

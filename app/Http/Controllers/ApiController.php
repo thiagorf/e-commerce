@@ -15,7 +15,7 @@ class ApiController extends Controller
 
     public function index()
     {            
-        $users = User::with('orders.products')->get();
+        $users = User::with('roles')->get();
 
         return response()->json(['users' => $users], 200);
     }
