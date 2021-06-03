@@ -1,6 +1,4 @@
-const EMAIL_REGEX = /^[a-z0-9]+@[a-z]+\.+[a-z]/i
-const PASSWORD_REGEX = /[a-z0-9]/i
-const NAME_REGEX = /[a-z0-9]/i
+import {EMAIL_REGEX, PASSWORD_REGEX, NAME_REGEX, DESCRIPTION_REGEX, PRICE_REGEX} from './validation-types'
 
 const validationMixin = {
     data() {
@@ -13,22 +11,28 @@ const validationMixin = {
                     return this.verifyRegex(PASSWORD_REGEX, value, 'password')
                 },
                 name: (value) => {
-                    return this.verifyRegex(NAME_REGEX, value , 'name')
+                    return this.verifyRegex(NAME_REGEX, value , 'name','nome')
+                },
+                description: (value) => {
+                    return this.verifyRegex(DESCRIPTION_REGEX, value, 'description', 'descrição')
+                },
+                price: (value) => {
+                    return this.verifyRegex(PRICE_REGEX, value, 'price', 'preço')
                 }
             }
         }
     },
     methods: {
-        verifyRegex(regex, value, inputName) {
+        verifyRegex(regex, value, propriety, inputName = '') {
+            if(!inputName) inputName = propriety
             if(value == ''){
-                return this.erros[inputName] = 'O campo não pode ficar vazio'
+                return this.erros[propriety] = 'O campo não pode ficar vazio'
             }
             if(regex.test(value)) {
-                this.erros[inputName] = ''
-                console.log(this.erros[inputName])
+                this.erros[propriety] = ''
                 return regex.test(value)
             }else {
-                return this.erros[inputName] = `${inputName} invalido`
+                return this.erros[propriety] = `${inputName} invalido`
                 
             }
         },
